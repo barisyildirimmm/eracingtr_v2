@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Juntar-se ao Servidor Discord',
     'mail_see_you' => 'Nos vemos na pista,',
     'mail_team' => 'Equipe eRacing Turquia',
+    'mail_delivery_time' => 'Nota: Este e-mail está sendo processado no sistema de fila e chegará a você em 1 minuto.',
+    
+    // Password Reset
+    'forgot_password' => 'Esqueci minha Senha',
+    'forgot_password_title' => 'ESQUECI MINHA SENHA',
+    'forgot_password_message' => 'Digite seu endereço de e-mail para redefinir sua senha. Enviaremos um código de 4 dígitos.',
+    'reset_code_placeholder' => 'Código de 4 Dígitos',
+    'reset_code_required' => 'Por favor, insira o código de 4 dígitos.',
+    'reset_code_invalid' => 'O código inserido é inválido ou expirou.',
+    'reset_code_expired' => 'O código expirou. Por favor, solicite um novo código.',
+    'password_reset_code_sent' => 'O código de redefinição de senha foi enviado para seu endereço de e-mail.',
+    'password_reset_success' => 'Sua senha foi atualizada com sucesso.',
+    'password_reset_mail_subject' => 'Código de Redefinição de Senha',
+    'password_reset_mail_message' => 'Use o seguinte código de 4 dígitos para redefinir sua senha:',
+    'password_reset_code_expires' => 'Este código é válido por 15 minutos.',
+    'password_reset_security_notice' => 'Se você não realizou esta ação, ignore este e-mail.',
+    'enter_reset_code' => 'INSERIR CÓDIGO',
+    'reset_password_title' => 'REDEFINIR SENHA',
+    'reset_password_message' => 'Digite o código de 4 dígitos enviado para seu endereço de e-mail e sua nova senha.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Nenhum resultado encontrado para este circuito.',

@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Unirse al Servidor de Discord',
     'mail_see_you' => 'Nos vemos en la pista,',
     'mail_team' => 'Equipo eRacing Turquía',
+    'mail_delivery_time' => 'Nota: Este correo electrónico se está procesando en el sistema de cola y llegará a usted en 1 minuto.',
+    
+    // Password Reset
+    'forgot_password' => 'Olvidé mi Contraseña',
+    'forgot_password_title' => 'OLVIDÉ MI CONTRASEÑA',
+    'forgot_password_message' => 'Ingrese su dirección de correo electrónico para restablecer su contraseña. Le enviaremos un código de 4 dígitos.',
+    'reset_code_placeholder' => 'Código de 4 Dígitos',
+    'reset_code_required' => 'Por favor ingrese el código de 4 dígitos.',
+    'reset_code_invalid' => 'El código ingresado no es válido o ha expirado.',
+    'reset_code_expired' => 'El código ha expirado. Por favor solicite un nuevo código.',
+    'password_reset_code_sent' => 'El código de restablecimiento de contraseña ha sido enviado a su dirección de correo electrónico.',
+    'password_reset_success' => 'Su contraseña ha sido actualizada exitosamente.',
+    'password_reset_mail_subject' => 'Código de Restablecimiento de Contraseña',
+    'password_reset_mail_message' => 'Use el siguiente código de 4 dígitos para restablecer su contraseña:',
+    'password_reset_code_expires' => 'Este código es válido por 15 minutos.',
+    'password_reset_security_notice' => 'Si no realizó esta acción, por favor ignore este correo electrónico.',
+    'enter_reset_code' => 'INGRESAR CÓDIGO',
+    'reset_password_title' => 'RESTABLECER CONTRASEÑA',
+    'reset_password_message' => 'Ingrese el código de 4 dígitos enviado a su dirección de correo electrónico y su nueva contraseña.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'No se encontró resultado para este circuito.',

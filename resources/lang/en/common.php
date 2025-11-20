@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Join Discord Server',
     'mail_see_you' => 'See you on the track,',
     'mail_team' => 'eRacing Turkey Team',
+    'mail_delivery_time' => 'Note: This email is being processed in the queue system and will reach you within 1 minute.',
+    
+    // Password Reset
+    'forgot_password' => 'Forgot Password',
+    'forgot_password_title' => 'FORGOT PASSWORD',
+    'forgot_password_message' => 'Enter your email address to reset your password. We will send you a 4-digit code.',
+    'reset_code_placeholder' => '4-Digit Code',
+    'reset_code_required' => 'Please enter the 4-digit code.',
+    'reset_code_invalid' => 'The code you entered is invalid or has expired.',
+    'reset_code_expired' => 'The code has expired. Please request a new code.',
+    'password_reset_code_sent' => 'Password reset code has been sent to your email address.',
+    'password_reset_success' => 'Your password has been successfully updated.',
+    'password_reset_mail_subject' => 'Password Reset Code',
+    'password_reset_mail_message' => 'Use the following 4-digit code to reset your password:',
+    'password_reset_code_expires' => 'This code is valid for 15 minutes.',
+    'password_reset_security_notice' => 'If you did not perform this action, please ignore this email.',
+    'enter_reset_code' => 'ENTER CODE',
+    'reset_password_title' => 'RESET PASSWORD',
+    'reset_password_message' => 'Enter the 4-digit code sent to your email address and your new password.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'No result found for this track.',

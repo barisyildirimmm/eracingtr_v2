@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Discord Serverinə Qoşul',
     'mail_see_you' => 'Yolda görüşərik,',
     'mail_team' => 'eRacing Türkiyə Komandası',
+    'mail_delivery_time' => 'Qeyd: Bu e-poçt növbə sistemində işlənir və 1 dəqiqə ərzində sizə çatacaq.',
+    
+    // Password Reset
+    'forgot_password' => 'Şifrəmi Unutdum',
+    'forgot_password_title' => 'ŞİFRƏMİ UNUTDUM',
+    'forgot_password_message' => 'Şifrənizi sıfırlamaq üçün e-poçt ünvanınızı daxil edin. Sizə 4 rəqəmli kod göndərəcəyik.',
+    'reset_code_placeholder' => '4 Rəqəmli Kod',
+    'reset_code_required' => 'Zəhmət olmasa 4 rəqəmli kodu daxil edin.',
+    'reset_code_invalid' => 'Daxil etdiyiniz kod etibarsızdır və ya müddəti bitmişdir.',
+    'reset_code_expired' => 'Kodun müddəti bitmişdir. Zəhmət olmasa yeni kod istəyin.',
+    'password_reset_code_sent' => 'Şifrə sıfırlama kodu e-poçt ünvanınıza göndərildi.',
+    'password_reset_success' => 'Şifrəniz uğurla yeniləndi.',
+    'password_reset_mail_subject' => 'Şifrə Sıfırlama Kodu',
+    'password_reset_mail_message' => 'Şifrənizi sıfırlamaq üçün aşağıdakı 4 rəqəmli kodu istifadə edin:',
+    'password_reset_code_expires' => 'Bu kod 15 dəqiqə ərzində etibarlıdır.',
+    'password_reset_security_notice' => 'Əgər bu əməliyyatı siz etməmisinizsə, zəhmət olmasa bu e-poçtu görməzdən gəlin.',
+    'enter_reset_code' => 'KOD DAXİL ET',
+    'reset_password_title' => 'ŞİFRƏ SIFIRLA',
+    'reset_password_message' => 'E-poçt ünvanınıza göndərilən 4 rəqəmli kodu və yeni şifrənizi daxil edin.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Bu yol üçün nəticə tapılmadı.',

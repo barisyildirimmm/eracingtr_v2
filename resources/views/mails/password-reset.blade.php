@@ -3,16 +3,29 @@
 @section('content')
     <p>{{ __('common.mail_hello') }} {{ $userInfo['name'] . " " . $userInfo['surname'] }},</p>
     <p>
-        <strong>{{ __('common.mail_thanks') }}</strong>
+        {{ __('common.password_reset_mail_message') }}
+    </p>
+    <p style="text-align: center; margin: 30px 0;">
+        <span style="
+            display: inline-block;
+            background: #dc3545;
+            color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            font-family: 'Courier New', monospace;
+        ">{{ $userInfo['reset_code'] }}</span>
     </p>
     <p>
-        {{ __('common.mail_ready') }}
-    </p>
-    <p>
-        <a href="{{ route('DverifyMailGet', $userInfo['email_verification_token']) }}" class="button">{{ __('common.mail_verify_button') }}</a>
+        {{ __('common.password_reset_code_expires') }}
     </p>
     <p style="color: #666; font-size: 12px; margin-top: 15px; font-style: italic;">
         <i class="fas fa-info-circle" style="margin-right: 5px;"></i>{{ __('common.mail_delivery_time') }}
+    </p>
+    <p>
+        {{ __('common.password_reset_security_notice') }}
     </p>
     <p>
         <a href="https://chat.whatsapp.com/EVT53Wh8Ysj1lyeOtTkRvL" target="_blank"
@@ -50,3 +63,4 @@
     </p>
     <p><strong>{{ __('common.mail_team') }}</strong></p>
 @endsection
+

@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Unisciti al Server Discord',
     'mail_see_you' => 'Ci vediamo in pista,',
     'mail_team' => 'Team eRacing Turchia',
+    'mail_delivery_time' => 'Nota: Questa email è in elaborazione nel sistema di coda e ti raggiungerà entro 1 minuto.',
+    
+    // Password Reset
+    'forgot_password' => 'Password Dimenticata',
+    'forgot_password_title' => 'PASSWORD DIMENTICATA',
+    'forgot_password_message' => 'Inserisci il tuo indirizzo email per reimpostare la password. Ti invieremo un codice a 4 cifre.',
+    'reset_code_placeholder' => 'Codice a 4 Cifre',
+    'reset_code_required' => 'Inserisci il codice a 4 cifre.',
+    'reset_code_invalid' => 'Il codice inserito non è valido o è scaduto.',
+    'reset_code_expired' => 'Il codice è scaduto. Richiedi un nuovo codice.',
+    'password_reset_code_sent' => 'Il codice di reimpostazione della password è stato inviato al tuo indirizzo email.',
+    'password_reset_success' => 'La tua password è stata aggiornata con successo.',
+    'password_reset_mail_subject' => 'Codice di Reimpostazione Password',
+    'password_reset_mail_message' => 'Usa il seguente codice a 4 cifre per reimpostare la password:',
+    'password_reset_code_expires' => 'Questo codice è valido per 15 minuti.',
+    'password_reset_security_notice' => 'Se non hai eseguito questa azione, ignora questa email.',
+    'enter_reset_code' => 'INSERISCI CODICE',
+    'reset_password_title' => 'REIMPOSTA PASSWORD',
+    'reset_password_message' => 'Inserisci il codice a 4 cifre inviato al tuo indirizzo email e la tua nuova password.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Nessun risultato trovato per questo circuito.',

@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Rejoindre le Serveur Discord',
     'mail_see_you' => 'À bientôt sur la piste,',
     'mail_team' => 'Équipe eRacing Turquie',
+    'mail_delivery_time' => 'Note: Cet e-mail est en cours de traitement dans le système de file d\'attente et vous parviendra dans 1 minute.',
+    
+    // Password Reset
+    'forgot_password' => 'Mot de Passe Oublié',
+    'forgot_password_title' => 'MOT DE PASSE OUBLIÉ',
+    'forgot_password_message' => 'Entrez votre adresse e-mail pour réinitialiser votre mot de passe. Nous vous enverrons un code à 4 chiffres.',
+    'reset_code_placeholder' => 'Code à 4 Chiffres',
+    'reset_code_required' => 'Veuillez entrer le code à 4 chiffres.',
+    'reset_code_invalid' => 'Le code que vous avez entré est invalide ou a expiré.',
+    'reset_code_expired' => 'Le code a expiré. Veuillez demander un nouveau code.',
+    'password_reset_code_sent' => 'Le code de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.',
+    'password_reset_success' => 'Votre mot de passe a été mis à jour avec succès.',
+    'password_reset_mail_subject' => 'Code de Réinitialisation du Mot de Passe',
+    'password_reset_mail_message' => 'Utilisez le code à 4 chiffres suivant pour réinitialiser votre mot de passe:',
+    'password_reset_code_expires' => 'Ce code est valable pendant 15 minutes.',
+    'password_reset_security_notice' => 'Si vous n\'avez pas effectué cette action, veuillez ignorer cet e-mail.',
+    'enter_reset_code' => 'ENTRER LE CODE',
+    'reset_password_title' => 'RÉINITIALISER LE MOT DE PASSE',
+    'reset_password_message' => 'Entrez le code à 4 chiffres envoyé à votre adresse e-mail et votre nouveau mot de passe.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Aucun résultat trouvé pour ce circuit.',

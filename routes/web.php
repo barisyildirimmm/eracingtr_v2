@@ -65,6 +65,8 @@ Route::get('takvim', [dashboardController::class, 'calendar'])->name('calendar')
 Route::post('giris', [DPauthController::class, 'loginPost'])->name('DloginPost');
 Route::post('register', [DPauthController::class, 'registerPost'])->name('DregisterPost');
 Route::get('verify-email/{token}', [DPauthController::class, 'verifyMailGet'])->name('DverifyMailGet');
+Route::post('sifremi-unuttum', [DPauthController::class, 'forgotPasswordPost'])->name('DforgotPasswordPost');
+Route::post('sifre-sifirla', [DPauthController::class, 'resetPasswordPost'])->name('DresetPasswordPost');
 
 Route::get('admin-giris', [APauthController::class, 'loginGet'])->name('AloginGet');
 Route::post('loginPostA', [APauthController::class, 'loginPost'])->name('AloginPost');

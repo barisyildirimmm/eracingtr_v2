@@ -494,6 +494,25 @@ return [
     'mail_discord_join' => 'Discord Sunucusuna Katıl',
     'mail_see_you' => 'Pistte görüşmek üzere,',
     'mail_team' => 'eRacing Türkiye Ekibi',
+    'mail_delivery_time' => 'Not: Bu mail kuyruk sisteminde işlenmektedir ve 1 dakika içinde size ulaşacaktır.',
+    
+    // Password Reset
+    'forgot_password' => 'Şifremi Unuttum',
+    'forgot_password_title' => 'ŞİFREMİ UNUTTUM',
+    'forgot_password_message' => 'Şifrenizi sıfırlamak için e-posta adresinizi girin. Size 4 haneli bir kod göndereceğiz.',
+    'reset_code_placeholder' => '4 Haneli Kod',
+    'reset_code_required' => 'Lütfen 4 haneli kodu girin.',
+    'reset_code_invalid' => 'Girdiğiniz kod geçersiz veya süresi dolmuş.',
+    'reset_code_expired' => 'Kodun süresi dolmuş. Lütfen yeni bir kod isteyin.',
+    'password_reset_code_sent' => 'Şifre sıfırlama kodu e-posta adresinize gönderildi.',
+    'password_reset_success' => 'Şifreniz başarıyla güncellendi.',
+    'password_reset_mail_subject' => 'Şifre Sıfırlama Kodu',
+    'password_reset_mail_message' => 'Şifrenizi sıfırlamak için aşağıdaki 4 haneli kodu kullanabilirsiniz:',
+    'password_reset_code_expires' => 'Bu kod 15 dakika geçerlidir.',
+    'password_reset_security_notice' => 'Eğer bu işlemi siz yapmadıysanız, lütfen bu e-postayı görmezden gelin.',
+    'enter_reset_code' => 'KOD GİR',
+    'reset_password_title' => 'ŞİFRE SIFIRLA',
+    'reset_password_message' => 'E-posta adresinize gönderilen 4 haneli kodu ve yeni şifrenizi girin.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Bu pist için sonuç bulunamadı.',

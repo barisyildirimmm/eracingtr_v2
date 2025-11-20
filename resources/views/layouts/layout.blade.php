@@ -328,7 +328,7 @@
                                             onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
                                             onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
                                     </div>
-                                    <div class="form-group form-group--submit" style="margin-bottom: 15px;">
+                                    <div class="form-group form-group--submit" style="margin-bottom: 10px;">
                                         <button type="button" onclick="loginUser()"
                                             class="btn btn-block" 
                                             style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 14px; font-weight: 600; font-size: 16px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);"
@@ -336,6 +336,14 @@
                                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(220, 53, 69, 0.4)'; this.style.background='linear-gradient(135deg, #dc3545 0%, #c82333 100%)'">
                                             <i class="fas fa-sign-in-alt mr-2"></i>{{ __('common.login_title') }}
                                         </button>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 15px;">
+                                        <a href="#" onclick="event.preventDefault(); $('#modal-login-register').modal('hide'); $('#modal-forgot-password').modal('show');" 
+                                           style="color: #dc3545; text-decoration: none; font-size: 14px; transition: color 0.3s;"
+                                           onmouseover="this.style.color='#c82333'; this.style.textDecoration='underline';"
+                                           onmouseout="this.style.color='#dc3545'; this.style.textDecoration='none';">
+                                            <i class="fas fa-key mr-2"></i>{{ __('common.forgot_password') }}
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -434,6 +442,107 @@
             </div>
         </div>
         <!-- Login/Register Modal / End -->
+
+        <!-- Forgot Password Modal -->
+        <div class="modal fade" id="modal-forgot-password" tabindex="-1" role="dialog" aria-labelledby="modal-forgot-password-label">
+            <div class="modal-dialog modal-lg modal--login" role="document">
+                <div class="modal-content" style="border-radius: 8px; border: none; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 20px 30px; border-bottom: 2px solid #dc3545; position: relative; display: flex; align-items: center; justify-content: space-between;">
+                        <h4 class="modal-title text-white" id="modal-forgot-password-label" style="margin: 0; font-weight: 600; font-size: 20px; line-height: 1.2;">
+                            <i class="fas fa-key mr-2" style="color: #dc3545;"></i><span id="forgot-password-modal-title">{{ __('common.forgot_password_title') }}</span>
+                        </h4>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" 
+                                style="opacity: 1; font-size: 24px; font-weight: 300; padding: 0; line-height: 1; background: rgba(0,0,0,0.3); border-radius: 4px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; margin: 0; border: none; position: relative; flex-shrink: 0;"
+                                onmouseover="this.style.background='rgba(220, 53, 69, 0.5)'"
+                                onmouseout="this.style.background='rgba(0,0,0,0.3)'">
+                            <span aria-hidden="true" style="line-height: 1; display: block;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 30px; background: #222;">
+                        <!-- Step 1: Email Input -->
+                        <div id="forgot-password-step1">
+                            <p style="color: #999; margin-bottom: 25px; font-size: 14px;">
+                                {{ __('common.forgot_password_message') }}
+                            </p>
+                            <form id="forgotPasswordForm" class="modal-form">
+                                @csrf
+                                <div class="form-group" style="margin-bottom: 25px;">
+                                    <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                        <i class="fas fa-envelope mr-2" style="color: #dc3545;"></i>{{ __('common.email_placeholder') }}
+                                    </label>
+                                    <input type="email" class="form-control" name="email" id="forgot-password-email"
+                                        placeholder="{{ __('common.email_placeholder') }}" required
+                                        style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                        onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                        onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                </div>
+                                <div class="form-group form-group--submit" style="margin-bottom: 15px;">
+                                    <button type="button" onclick="sendResetCode()"
+                                        class="btn btn-block" 
+                                        style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 14px; font-weight: 600; font-size: 16px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);"
+                                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 53, 69, 0.6)'; this.style.background='linear-gradient(135deg, #c82333 0%, #bd2130 100%)'"
+                                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(220, 53, 69, 0.4)'; this.style.background='linear-gradient(135deg, #dc3545 0%, #c82333 100%)'">
+                                        <i class="fas fa-paper-plane mr-2"></i>{{ __('common.enter_reset_code') }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Step 2: Code and New Password Input -->
+                        <div id="forgot-password-step2" style="display: none;">
+                            <p style="color: #999; margin-bottom: 25px; font-size: 14px;">
+                                {{ __('common.reset_password_message') }}
+                            </p>
+                            <form id="resetPasswordForm" class="modal-form">
+                                @csrf
+                                <input type="hidden" name="email" id="reset-password-email">
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                        <i class="fas fa-key mr-2" style="color: #dc3545;"></i>{{ __('common.reset_code_placeholder') }}
+                                    </label>
+                                    <input type="text" class="form-control" name="reset_code" id="reset-code-input"
+                                        placeholder="{{ __('common.reset_code_placeholder') }}" required maxlength="4"
+                                        style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s; text-align: center; font-size: 24px; letter-spacing: 8px; font-weight: bold; font-family: 'Courier New', monospace;"
+                                        onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                        onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                        <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_placeholder') }}
+                                    </label>
+                                    <input type="password" class="form-control" name="password" id="reset-password-new"
+                                        placeholder="{{ __('common.password_placeholder') }}" required
+                                        style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                        onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                        onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 25px;">
+                                    <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                        <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_confirmation_placeholder') }}
+                                    </label>
+                                    <input type="password" class="form-control" name="password_confirmation" id="reset-password-confirm"
+                                        placeholder="{{ __('common.password_confirmation_placeholder') }}" required
+                                        style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                        onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                        onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                </div>
+                                <div class="form-group form-group--submit" style="margin-bottom: 15px;">
+                                    <button type="button" onclick="resetPassword()"
+                                        class="btn btn-block" 
+                                        style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 14px; font-weight: 600; font-size: 16px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);"
+                                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 53, 69, 0.6)'; this.style.background='linear-gradient(135deg, #c82333 0%, #bd2130 100%)'"
+                                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(220, 53, 69, 0.4)'; this.style.background='linear-gradient(135deg, #dc3545 0%, #c82333 100%)'">
+                                        <i class="fas fa-check mr-2"></i>{{ __('common.reset_password_title') }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Forgot Password Modal / End -->
 
     </div>
 
@@ -717,6 +826,152 @@
                 }
             });
         }
+
+        function sendResetCode() {
+            const email = $('#forgot-password-email').val();
+            if (!email) {
+                Swal.fire({
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.email_required') }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __('common.ok') }}'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('DforgotPasswordPost') }}',
+                type: 'POST',
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.hata === 1) {
+                        Swal.fire({
+                            title: '{{ __('common.error') }}',
+                            text: response.aciklama,
+                            icon: 'error',
+                            confirmButtonText: '{{ __('common.ok') }}'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '{{ __('common.success') }}',
+                            text: response.aciklama,
+                            icon: 'success',
+                            confirmButtonText: '{{ __('common.ok') }}'
+                        }).then(() => {
+                            // Step 2'ye geç
+                            $('#forgot-password-step1').hide();
+                            $('#forgot-password-step2').show();
+                            $('#reset-password-email').val(email);
+                            $('#forgot-password-modal-title').text('{{ __('common.reset_password_title') }}');
+                            $('#reset-code-input').focus();
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.unexpected_error') }}',
+                        icon: 'error',
+                        confirmButtonText: '{{ __('common.ok') }}'
+                    });
+                }
+            });
+        }
+
+        function resetPassword() {
+            const resetCode = $('#reset-code-input').val();
+            const password = $('#reset-password-new').val();
+            const passwordConfirmation = $('#reset-password-confirm').val();
+            const email = $('#reset-password-email').val();
+
+            if (!resetCode || resetCode.length !== 4) {
+                Swal.fire({
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.reset_code_required') }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __('common.ok') }}'
+                });
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                Swal.fire({
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.password_min_length') }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __('common.ok') }}'
+                });
+                return;
+            }
+
+            if (password !== passwordConfirmation) {
+                Swal.fire({
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.password_confirmed') }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __('common.ok') }}'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('DresetPasswordPost') }}',
+                type: 'POST',
+                data: {
+                    email: email,
+                    reset_code: resetCode,
+                    password: password,
+                    password_confirmation: passwordConfirmation,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.hata === 1) {
+                        Swal.fire({
+                            title: '{{ __('common.error') }}',
+                            text: response.aciklama,
+                            icon: 'error',
+                            confirmButtonText: '{{ __('common.ok') }}'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '{{ __('common.success') }}',
+                            text: response.aciklama,
+                            icon: 'success',
+                            confirmButtonText: '{{ __('common.ok') }}'
+                        }).then(() => {
+                            $('#modal-forgot-password').modal('hide');
+                            $('#modal-login-register').modal('show');
+                            // Formları temizle
+                            $('#forgotPasswordForm')[0].reset();
+                            $('#resetPasswordForm')[0].reset();
+                            $('#forgot-password-step1').show();
+                            $('#forgot-password-step2').hide();
+                            $('#forgot-password-modal-title').text('{{ __('common.forgot_password_title') }}');
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.unexpected_error') }}',
+                        icon: 'error',
+                        confirmButtonText: '{{ __('common.ok') }}'
+                    });
+                }
+            });
+        }
+
+        // Modal kapandığında formları sıfırla
+        $('#modal-forgot-password').on('hidden.bs.modal', function() {
+            $('#forgotPasswordForm')[0].reset();
+            $('#resetPasswordForm')[0].reset();
+            $('#forgot-password-step1').show();
+            $('#forgot-password-step2').hide();
+            $('#forgot-password-modal-title').text('{{ __('common.forgot_password_title') }}');
+        });
 
         function logout() {
             $.ajax({

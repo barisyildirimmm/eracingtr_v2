@@ -474,6 +474,25 @@ return [
     'mail_discord_join' => 'Discord-Server Beitreten',
     'mail_see_you' => 'Wir sehen uns auf der Strecke,',
     'mail_team' => 'eRacing Türkei Team',
+    'mail_delivery_time' => 'Hinweis: Diese E-Mail wird im Warteschlangensystem verarbeitet und erreicht Sie innerhalb von 1 Minute.',
+    
+    // Password Reset
+    'forgot_password' => 'Passwort Vergessen',
+    'forgot_password_title' => 'PASSWORT VERGESSEN',
+    'forgot_password_message' => 'Geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen. Wir senden Ihnen einen 4-stelligen Code.',
+    'reset_code_placeholder' => '4-Stelliger Code',
+    'reset_code_required' => 'Bitte geben Sie den 4-stelligen Code ein.',
+    'reset_code_invalid' => 'Der eingegebene Code ist ungültig oder abgelaufen.',
+    'reset_code_expired' => 'Der Code ist abgelaufen. Bitte fordern Sie einen neuen Code an.',
+    'password_reset_code_sent' => 'Der Passwort-Reset-Code wurde an Ihre E-Mail-Adresse gesendet.',
+    'password_reset_success' => 'Ihr Passwort wurde erfolgreich aktualisiert.',
+    'password_reset_mail_subject' => 'Passwort-Reset-Code',
+    'password_reset_mail_message' => 'Verwenden Sie den folgenden 4-stelligen Code, um Ihr Passwort zurückzusetzen:',
+    'password_reset_code_expires' => 'Dieser Code ist 15 Minuten gültig.',
+    'password_reset_security_notice' => 'Wenn Sie diese Aktion nicht durchgeführt haben, ignorieren Sie bitte diese E-Mail.',
+    'enter_reset_code' => 'CODE EINGEBEN',
+    'reset_password_title' => 'PASSWORT ZURÜCKSETZEN',
+    'reset_password_message' => 'Geben Sie den an Ihre E-Mail-Adresse gesendeten 4-stelligen Code und Ihr neues Passwort ein.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Kein Ergebnis für diese Strecke gefunden.',
