@@ -472,6 +472,7 @@ return [
     'mail_verify_button' => 'Verify Email Address, Complete Your Account',
     'mail_whatsapp_join' => 'Join WhatsApp Group',
     'mail_discord_join' => 'Join Discord Server',
+    'mail_join_communities' => 'Join Our Communities',
     'mail_see_you' => 'See you on the track,',
     'mail_team' => 'eRacing Turkey Team',
     'mail_delivery_time' => 'Note: This email is being processed in the queue system and will reach you within 1 minute.',
@@ -493,6 +494,9 @@ return [
     'enter_reset_code' => 'ENTER CODE',
     'reset_password_title' => 'RESET PASSWORD',
     'reset_password_message' => 'Enter the 4-digit code sent to your email address and your new password.',
+    'resend_code' => 'Resend Email',
+    'resend_code_countdown' => 'Please wait :seconds seconds to resend email',
+    'password_reset_rate_limit' => 'Please wait :minutes minutes :seconds seconds. Password reset email can be sent once every 2 minutes.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'No result found for this track.',

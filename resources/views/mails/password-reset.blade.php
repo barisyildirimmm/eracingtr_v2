@@ -21,9 +21,6 @@
     <p>
         {{ __('common.password_reset_code_expires') }}
     </p>
-    <p style="color: #666; font-size: 12px; margin-top: 15px; font-style: italic;">
-        <i class="fas fa-info-circle" style="margin-right: 5px;"></i>{{ __('common.mail_delivery_time') }}
-    </p>
     <p>
         {{ __('common.password_reset_security_notice') }}
     </p>

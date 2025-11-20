@@ -507,6 +507,12 @@
                                         onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'"
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                 </div>
+                                <div class="form-group" style="margin-bottom: 20px; text-align: center;">
+                                    <button type="button" id="resend-code-btn" onclick="resendResetCode()" disabled
+                                        style="background: #555; color: #999; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 600; font-size: 14px; cursor: not-allowed; transition: all 0.3s;">
+                                        <i class="fas fa-redo mr-2"></i><span id="resend-code-text">{{ __('common.resend_code') }}</span> <span id="resend-countdown"></span>
+                                    </button>
+                                </div>
                                 <div class="form-group" style="margin-bottom: 20px;">
                                     <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
                                         <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_placeholder') }}
@@ -810,7 +816,8 @@
                             title: '{{ __('common.register_success') }}',
                             text: '{{ __('common.register_success_text') }}',
                             icon: 'success',
-                            confirmButtonText: '{{ __('common.ok') }}'
+                            confirmButtonText: '{{ __('common.ok') }}',
+                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -859,7 +866,8 @@
                             title: '{{ __('common.success') }}',
                             text: response.aciklama,
                             icon: 'success',
-                            confirmButtonText: '{{ __('common.ok') }}'
+                            confirmButtonText: '{{ __('common.ok') }}',
+                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
                         }).then(() => {
                             // Step 2'ye geç
                             $('#forgot-password-step1').hide();
@@ -867,6 +875,8 @@
                             $('#reset-password-email').val(email);
                             $('#forgot-password-modal-title').text('{{ __('common.reset_password_title') }}');
                             $('#reset-code-input').focus();
+                            // 2 dakika geri sayım başlat
+                            startResendCountdown();
                         });
                     }
                 },
@@ -964,6 +974,101 @@
             });
         }
 
+        // Geri sayım değişkeni
+        let resendCountdownInterval = null;
+        let resendCountdownSeconds = 120; // 2 dakika = 120 saniye
+
+        function startResendCountdown() {
+            // Önceki interval'i temizle
+            if (resendCountdownInterval) {
+                clearInterval(resendCountdownInterval);
+            }
+            
+            resendCountdownSeconds = 120; // 2 dakika
+            const resendBtn = $('#resend-code-btn');
+            const resendText = $('#resend-code-text');
+            const countdownSpan = $('#resend-countdown');
+            
+            // Butonu devre dışı bırak
+            resendBtn.prop('disabled', true);
+            resendBtn.css({
+                'background': '#555',
+                'color': '#999',
+                'cursor': 'not-allowed'
+            });
+            
+            resendCountdownInterval = setInterval(function() {
+                const minutes = Math.floor(resendCountdownSeconds / 60);
+                const seconds = resendCountdownSeconds % 60;
+                const timeString = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                
+                countdownSpan.text('(' + timeString + ')');
+                
+                resendCountdownSeconds--;
+                
+                if (resendCountdownSeconds < 0) {
+                    clearInterval(resendCountdownInterval);
+                    resendBtn.prop('disabled', false);
+                    resendBtn.css({
+                        'background': 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
+                        'color': 'white',
+                        'cursor': 'pointer'
+                    });
+                    countdownSpan.text('');
+                }
+            }, 1000);
+        }
+
+        function resendResetCode() {
+            const email = $('#reset-password-email').val();
+            if (!email) {
+                Swal.fire({
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.email_required') }}',
+                    icon: 'error',
+                    confirmButtonText: '{{ __('common.ok') }}'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('DforgotPasswordPost') }}',
+                type: 'POST',
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.hata === 1) {
+                        Swal.fire({
+                            title: '{{ __('common.error') }}',
+                            text: response.aciklama,
+                            icon: 'error',
+                            confirmButtonText: '{{ __('common.ok') }}'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '{{ __('common.success') }}',
+                            text: response.aciklama,
+                            icon: 'success',
+                            confirmButtonText: '{{ __('common.ok') }}',
+                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
+                        });
+                        // Geri sayımı yeniden başlat
+                        startResendCountdown();
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.unexpected_error') }}',
+                        icon: 'error',
+                        confirmButtonText: '{{ __('common.ok') }}'
+                    });
+                }
+            });
+        }
+
         // Modal kapandığında formları sıfırla
         $('#modal-forgot-password').on('hidden.bs.modal', function() {
             $('#forgotPasswordForm')[0].reset();
@@ -971,6 +1076,18 @@
             $('#forgot-password-step1').show();
             $('#forgot-password-step2').hide();
             $('#forgot-password-modal-title').text('{{ __('common.forgot_password_title') }}');
+            // Geri sayımı durdur
+            if (resendCountdownInterval) {
+                clearInterval(resendCountdownInterval);
+                resendCountdownInterval = null;
+            }
+            $('#resend-countdown').text('');
+            $('#resend-code-btn').prop('disabled', false);
+            $('#resend-code-btn').css({
+                'background': 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
+                'color': 'white',
+                'cursor': 'pointer'
+            });
         });
 
         function logout() {

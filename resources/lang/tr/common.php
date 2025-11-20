@@ -492,6 +492,7 @@ return [
     'mail_verify_button' => 'Mail Adresini Onayla, Hesabını Tamamla',
     'mail_whatsapp_join' => 'WhatsApp Grubuna Katıl',
     'mail_discord_join' => 'Discord Sunucusuna Katıl',
+    'mail_join_communities' => 'Topluluklarımıza Katıl',
     'mail_see_you' => 'Pistte görüşmek üzere,',
     'mail_team' => 'eRacing Türkiye Ekibi',
     'mail_delivery_time' => 'Not: Bu mail kuyruk sisteminde işlenmektedir ve 1 dakika içinde size ulaşacaktır.',
@@ -513,6 +514,9 @@ return [
     'enter_reset_code' => 'KOD GİR',
     'reset_password_title' => 'ŞİFRE SIFIRLA',
     'reset_password_message' => 'E-posta adresinize gönderilen 4 haneli kodu ve yeni şifrenizi girin.',
+    'resend_code' => 'Tekrar Mail Gönder',
+    'resend_code_countdown' => 'Tekrar mail gönderebilmek için :seconds saniye bekleyin',
+    'password_reset_rate_limit' => 'Lütfen :minutes dakika :seconds saniye bekleyin. Şifre sıfırlama maili 2 dakikada bir gönderilebilir.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Bu pist için sonuç bulunamadı.',

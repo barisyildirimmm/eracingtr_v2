@@ -472,6 +472,7 @@ return [
     'mail_verify_button' => 'E-poçt Ünvanını Təsdiqlə, Hesabınızı Tamamla',
     'mail_whatsapp_join' => 'WhatsApp Qrupuna Qoşul',
     'mail_discord_join' => 'Discord Serverinə Qoşul',
+    'mail_join_communities' => 'Bizim İctimailərimizə Qoşul',
     'mail_see_you' => 'Yolda görüşərik,',
     'mail_team' => 'eRacing Türkiyə Komandası',
     'mail_delivery_time' => 'Qeyd: Bu e-poçt növbə sistemində işlənir və 1 dəqiqə ərzində sizə çatacaq.',
@@ -493,6 +494,9 @@ return [
     'enter_reset_code' => 'KOD DAXİL ET',
     'reset_password_title' => 'ŞİFRƏ SIFIRLA',
     'reset_password_message' => 'E-poçt ünvanınıza göndərilən 4 rəqəmli kodu və yeni şifrənizi daxil edin.',
+    'resend_code' => 'E-poçtu Yenidən Göndər',
+    'resend_code_countdown' => 'E-poçtu yenidən göndərmək üçün :seconds saniyə gözləyin',
+    'password_reset_rate_limit' => 'Lütfən :minutes dəqiqə :seconds saniyə gözləyin. Şifrə sıfırlama e-poçtu hər 2 dəqiqədə bir göndərilə bilər.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Bu yol üçün nəticə tapılmadı.',

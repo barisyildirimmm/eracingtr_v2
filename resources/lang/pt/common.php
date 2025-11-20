@@ -472,6 +472,7 @@ return [
     'mail_verify_button' => 'Verificar Endereço de E-mail, Completar Sua Conta',
     'mail_whatsapp_join' => 'Juntar-se ao Grupo WhatsApp',
     'mail_discord_join' => 'Juntar-se ao Servidor Discord',
+    'mail_join_communities' => 'Junte-se às Nossas Comunidades',
     'mail_see_you' => 'Nos vemos na pista,',
     'mail_team' => 'Equipe eRacing Turquia',
     'mail_delivery_time' => 'Nota: Este e-mail está sendo processado no sistema de fila e chegará a você em 1 minuto.',
@@ -493,6 +494,9 @@ return [
     'enter_reset_code' => 'INSERIR CÓDIGO',
     'reset_password_title' => 'REDEFINIR SENHA',
     'reset_password_message' => 'Digite o código de 4 dígitos enviado para seu endereço de e-mail e sua nova senha.',
+    'resend_code' => 'Reenviar E-mail',
+    'resend_code_countdown' => 'Aguarde :seconds segundos para reenviar o e-mail',
+    'password_reset_rate_limit' => 'Aguarde :minutes minutos :seconds segundos. O e-mail de redefinição de senha pode ser enviado uma vez a cada 2 minutos.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Nenhum resultado encontrado para este circuito.',

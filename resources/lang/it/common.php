@@ -472,6 +472,7 @@ return [
     'mail_verify_button' => 'Verifica Indirizzo Email, Completa il Tuo Account',
     'mail_whatsapp_join' => 'Unisciti al Gruppo WhatsApp',
     'mail_discord_join' => 'Unisciti al Server Discord',
+    'mail_join_communities' => 'Unisciti alle Nostre Comunità',
     'mail_see_you' => 'Ci vediamo in pista,',
     'mail_team' => 'Team eRacing Turchia',
     'mail_delivery_time' => 'Nota: Questa email è in elaborazione nel sistema di coda e ti raggiungerà entro 1 minuto.',
@@ -493,6 +494,9 @@ return [
     'enter_reset_code' => 'INSERISCI CODICE',
     'reset_password_title' => 'REIMPOSTA PASSWORD',
     'reset_password_message' => 'Inserisci il codice a 4 cifre inviato al tuo indirizzo email e la tua nuova password.',
+    'resend_code' => 'Invia di Nuovo Email',
+    'resend_code_countdown' => 'Attendere :seconds secondi per inviare nuovamente l\'email',
+    'password_reset_rate_limit' => 'Attendere :minutes minuti :seconds secondi. L\'email di reimpostazione password può essere inviata una volta ogni 2 minuti.',
     
     // F1 Leagues - Results
     'no_result_for_track' => 'Nessun risultato trovato per questo circuito.',

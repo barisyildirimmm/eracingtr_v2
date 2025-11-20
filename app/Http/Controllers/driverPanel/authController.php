@@ -191,13 +191,31 @@ class authController extends Controller
             ];
         }
 
+        // Rate limiting kontrolü: Son mail gönderiminden 2 dakika geçmeden yeni mail gönderilmesini engelle
+        if ($driver->password_reset_code_sent_at) {
+            $lastSentTime = \Illuminate\Support\Carbon::parse($driver->password_reset_code_sent_at);
+            $secondsSinceLastSent = now()->diffInSeconds($lastSentTime);
+            
+            if ($secondsSinceLastSent < 120) { // 2 dakika = 120 saniye
+                $remainingSeconds = 120 - $secondsSinceLastSent;
+                $remainingMinutes = floor($remainingSeconds / 60);
+                $remainingSecs = $remainingSeconds % 60;
+                
+                return [
+                    'hata' => 1,
+                    'aciklama' => __('common.password_reset_rate_limit', ['minutes' => $remainingMinutes, 'seconds' => $remainingSecs])
+                ];
+            }
+        }
+
         // 4 haneli kod oluştur
         $resetCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-        // Kodu veritabanına kaydet (15 dakika geçerli)
+        // Kodu veritabanına kaydet (15 dakika geçerli, mail gönderim zamanını da kaydet)
         DB::table('drivers')->where('id', $driver->id)->update([
             'password_reset_code' => $resetCode,
             'password_reset_expires_at' => now()->addMinutes(15),
+            'password_reset_code_sent_at' => now(),
         ]);
 
         // Driver'ın ülke kodundan dil kodunu belirle
