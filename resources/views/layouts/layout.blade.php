@@ -496,7 +496,11 @@
                                         </button>
                                     </div>
                                     <div class="modal-form--note" style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">
-                                        <i class="fas fa-info-circle mr-2" style="color: #dc3545;"></i>{{ __('common.register_note') }}
+                                        @if(session('driverInfo') && session('driverInfo')->email_verified_at)
+                                            <i class="fas fa-check-circle mr-2" style="color: #10b981;"></i>{{ __('common.email_verified') }}
+                                        @else
+                                            <i class="fas fa-info-circle mr-2" style="color: #dc3545;"></i>{{ __('common.register_note') }}
+                                        @endif
                                     </div>
                                 </form>
                             </div>

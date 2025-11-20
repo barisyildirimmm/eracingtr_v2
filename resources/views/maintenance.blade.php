@@ -487,7 +487,11 @@
                 </button>
                 
                 <div class="form-note">
-                    <i class="fas fa-info-circle" style="color: #dc3545; margin-right: 5px;"></i>{{ __('common.register_note') }}
+                    @if(session('driverInfo') && session('driverInfo')->email_verified_at)
+                        <i class="fas fa-check-circle" style="color: #10b981; margin-right: 5px;"></i>{{ __('common.email_verified') }}
+                    @else
+                        <i class="fas fa-info-circle" style="color: #dc3545; margin-right: 5px;"></i>{{ __('common.register_note') }}
+                    @endif
                 </div>
             </form>
         </div>
