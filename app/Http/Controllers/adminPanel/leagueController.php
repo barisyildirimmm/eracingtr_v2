@@ -12,7 +12,8 @@ class leagueController extends Controller
     public function listLeagues()
     {
         $leagues = DB::table('f1_leagues')->get();
-        return view('adminPanel.leagues.list', ['leagues' => $leagues]);
+        $tracks = DB::table('f1_tracks')->select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('adminPanel.leagues.list', ['leagues' => $leagues, 'tracks' => $tracks]);
     }
 
     public function createLeague(Request $request)
@@ -26,14 +27,14 @@ class leagueController extends Controller
             'reserve_driver_point' => 'required|integer',
             'reserve_driver_team_point' => 'required|integer',
         ], [
-            'name.required' => 'Adı alanı zorunludur.',
-            'status.required' => 'Durum alanı zorunludur.',
-            'link.required' => 'Bağlantı alanı zorunludur.',
-            'link.unique' => 'Bu bağlantı zaten kullanılmış.',
-            'rank.required' => 'Rank alanı zorunludur.',
-            'point_rate.required' => 'Puan oranı alanı zorunludur.',
-            'reserve_driver_point.required' => 'Yedek sürücü puanı alanı zorunludur.',
-            'reserve_driver_team_point.required' => 'Yedek takım puanı alanı zorunludur.',
+            'name.required' => __('common.name_required'),
+            'status.required' => __('common.status_required'),
+            'link.required' => __('common.link_required'),
+            'link.unique' => __('common.link_unique'),
+            'rank.required' => __('common.rank_required'),
+            'point_rate.required' => __('common.point_rate_required'),
+            'reserve_driver_point.required' => __('common.reserve_driver_point_required'),
+            'reserve_driver_team_point.required' => __('common.reserve_driver_team_point_required'),
         ]);
 
         if ($validator->fails()) {
@@ -57,7 +58,7 @@ class leagueController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Lig başarıyla oluşturuldu.'
+            'aciklama' => __('common.league_created')
         ]);
     }
 
@@ -71,15 +72,18 @@ class leagueController extends Controller
             'point_rate' => 'required|integer',
             'editReserveDriverPoint' => 'required|integer',
             'editReserveDriverTeamPoint' => 'required|integer',
+            'tryouts_visibility' => 'nullable|integer',
+            'tryouts_track_id' => 'nullable|integer|exists:f1_tracks,id',
         ], [
-            'name.required' => 'Adı alanı zorunludur.',
-            'status.required' => 'Durum alanı zorunludur.',
-            'link.required' => 'Bağlantı alanı zorunludur.',
-            'link.unique' => 'Bu bağlantı zaten kullanılmış.',
-            'rank.required' => 'Rank alanı zorunludur.',
-            'point_rate.required' => 'Puan oranı alanı zorunludur.',
-            'editReserveDriverPoint.required' => 'Yedek sürücü puanı alanı zorunludur.',
-            'editReserveDriverTeamPoint.required' => 'Yedek takım puanı alanı zorunludur.'
+            'name.required' => __('common.name_required'),
+            'status.required' => __('common.status_required'),
+            'link.required' => __('common.link_required'),
+            'link.unique' => __('common.link_unique'),
+            'rank.required' => __('common.rank_required'),
+            'point_rate.required' => __('common.point_rate_required'),
+            'editReserveDriverPoint.required' => __('common.reserve_driver_point_required'),
+            'editReserveDriverTeamPoint.required' => __('common.reserve_driver_team_point_required'),
+            'tryouts_track_id.exists' => __('common.track_not_found')
         ]);
 
         if ($validator->fails()) {
@@ -89,7 +93,7 @@ class leagueController extends Controller
             ]);
         }
 
-        $updateData = array_filter([
+        $updateData = [
             'name' => $request->name,
             'status' => $request->status,
             'link' => $request->link,
@@ -97,15 +101,21 @@ class leagueController extends Controller
             'point_rate' => $request->point_rate,
             'reserve_driver_point' => $request->editReserveDriverPoint,
             'reserve_driver_team_point' => $request->editReserveDriverTeamPoint,
-        ], function ($value) {
-            return $value !== null; // `null` değerlerini kaldırır, ancak `0` gibi değerleri bırakır.
-        });
+            'tryouts_visibility' => $request->tryouts_visibility ?? 0,
+        ];
+
+        // tryouts_track_id sadece değer varsa ekle
+        if ($request->has('tryouts_track_id') && $request->tryouts_track_id !== null && $request->tryouts_track_id !== '') {
+            $updateData['tryouts_track_id'] = $request->tryouts_track_id;
+        } else {
+            $updateData['tryouts_track_id'] = null;
+        }
 
         DB::table('f1_leagues')->where('id', $id)->update($updateData);
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Lig başarıyla güncellendi.'
+            'aciklama' => __('common.league_updated')
         ]);
     }
 
@@ -116,7 +126,7 @@ class leagueController extends Controller
         if (!$league) {
             return response()->json([
                 'hata' => 1,
-                'aciklama' => 'Lig bulunamadı.'
+                'aciklama' => __('common.league_not_found')
             ]);
         }
 
@@ -124,7 +134,7 @@ class leagueController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Lig başarıyla silindi.'
+            'aciklama' => __('common.league_deleted')
         ]);
     }
 }

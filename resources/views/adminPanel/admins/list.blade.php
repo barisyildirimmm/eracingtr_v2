@@ -8,9 +8,9 @@
         <div class="col-span-12">
             <div class="box">
                 <div class="box-header">
-                    <h5 class="box-title">Yöneticiler</h5>
+                    <h5 class="box-title">{{ __('common.admins') }}</h5>
                     <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#createAdminModal">
-                        Yeni Ekle
+                        {{ __('common.add_new') }}
                     </button>
                 </div>
                 <div class="box-body">
@@ -19,10 +19,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Adı</th>
-                                <th>Soyadı</th>
-                                <th>Kullanıcı Adı</th>
-                                <th>İşlemler</th>
+                                <th>{{ __('common.name') }}</th>
+                                <th>{{ __('common.surname') }}</th>
+                                <th>{{ __('common.user_name') }}</th>
+                                <th>{{ __('common.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -36,7 +36,7 @@
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                                 data-bs-target="#editAdminModal"
                                                 onclick="editAdmin({{ $admin->id }}, '{{ $admin->name }}', '{{ $admin->surname }}', '{{ $admin->user_name }}')">
-                                            Düzenle
+                                            {{ __('common.edit') }}
                                         </button>
                                     </td>
                                 </tr>
@@ -55,26 +55,26 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createAdminModalLabel">Yeni Yönetici Ekle</h5>
+                    <h5 class="modal-title" id="createAdminModalLabel">{{ __('common.add_new_admin') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="createAdminForm" method="POST" action="{{ route('admin.admins.create') }}">
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Adı</label>
+                            <label for="name" class="form-label">{{ __('common.name') }}</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="surname" class="form-label">Soyadı</label>
+                            <label for="surname" class="form-label">{{ __('common.surname') }}</label>
                             <input type="text" class="form-control" id="surname" name="surname" required>
                         </div>
                         <div class="mb-3">
-                            <label for="user_name" class="form-label">Kullanıcı Adı</label>
+                            <label for="user_name" class="form-label">{{ __('common.user_name') }}</label>
                             <input type="text" class="form-control" id="user_name" name="user_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Şifre</label>
+                            <label for="password" class="form-label">{{ __('common.password') }}</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" id="password" name="password" required>
                                 <button class="btn btn-outline-secondary" type="button" id="togglePassword">
@@ -82,7 +82,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
                     </form>
                 </div>
             </div>
@@ -94,7 +94,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAdminModalLabel">Yönetici Düzenle</h5>
+                    <h5 class="modal-title" id="editAdminModalLabel">{{ __('common.edit_admin') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -103,19 +103,19 @@
                         @method('PUT')
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="editName" class="form-label">Adı</label>
+                            <label for="editName" class="form-label">{{ __('common.name') }}</label>
                             <input type="text" class="form-control" id="editName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editSurname" class="form-label">Soyadı</label>
+                            <label for="editSurname" class="form-label">{{ __('common.surname') }}</label>
                             <input type="text" class="form-control" id="editSurname" name="surname" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editUserName" class="form-label">Kullanıcı Adı</label>
+                            <label for="editUserName" class="form-label">{{ __('common.user_name') }}</label>
                             <input type="text" class="form-control" id="editUserName" name="user_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editPassword" class="form-label">Şifre</label>
+                            <label for="editPassword" class="form-label">{{ __('common.password') }}</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" id="editPassword" name="password">
                                 <button class="btn btn-outline-secondary" type="button" id="toggleEditPassword">
@@ -123,7 +123,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
                     </form>
                 </div>
             </div>
@@ -141,12 +141,12 @@
                 ordering: true,
                 lengthChange: true,
                 language: {
-                    search: "Ara:",
-                    lengthMenu: "Sayfada _MENU_ kayıt göster",
-                    info: "_START_ ile _END_ arası gösteriliyor, toplam _TOTAL_ kayıt",
+                    search: "{{ __('common.datatable_search') }}",
+                    lengthMenu: "{{ __('common.datatable_length_menu') }}",
+                    info: "{{ __('common.datatable_info') }}",
                     paginate: {
-                        next: "Sonraki",
-                        previous: "Önceki"
+                        next: "{{ __('common.datatable_next') }}",
+                        previous: "{{ __('common.datatable_previous') }}"
                     }
                 }
             });
@@ -169,8 +169,8 @@
         $('#createAdminForm').on('submit', function (e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Lütfen bekleyin',
-                text: 'Kaydediliyor...',
+                title: '{{ __('common.please_wait') }}',
+                text: '{{ __('common.saving') }}',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
@@ -187,13 +187,13 @@
                     $('#createAdminModal').modal('hide');
                     Swal.fire({
                         icon: 'success',
-                        title: 'Başarılı',
-                        text: 'Yönetici başarıyla oluşturuldu.',
-                        confirmButtonText: 'Tamam'
+                        title: '{{ __('common.success') }}',
+                        text: '{{ __('common.admin_created_success') }}',
+                        confirmButtonText: '{{ __('common.ok') }}'
                     }).then(() => {
                         Swal.fire({
-                            title: 'Lütfen bekleyin',
-                            text: 'Sayfa Yenileniyor...',
+                            title: '{{ __('common.please_wait') }}',
+                            text: '{{ __('common.page_refreshing') }}',
                             allowOutsideClick: false,
                             didOpen: () => {
                                 Swal.showLoading();
@@ -205,9 +205,9 @@
                 error: function () {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Hata',
-                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
-                        confirmButtonText: 'Tamam'
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.error_occurred') }}',
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 }
             });
@@ -216,8 +216,8 @@
         $('#editAdminForm').on('submit', function (e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Lütfen bekleyin',
-                text: 'Güncelleniyor...',
+                title: '{{ __('common.please_wait') }}',
+                text: '{{ __('common.updating') }}',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
@@ -233,13 +233,13 @@
                     $('#editAdminModal').modal('hide');
                     Swal.fire({
                         icon: 'success',
-                        title: 'Başarılı',
-                        text: 'Yönetici başarıyla güncellendi.',
-                        confirmButtonText: 'Tamam'
+                        title: '{{ __('common.success') }}',
+                        text: '{{ __('common.admin_updated_success') }}',
+                        confirmButtonText: '{{ __('common.ok') }}'
                     }).then(() => {
                         Swal.fire({
-                            title: 'Lütfen bekleyin',
-                            text: 'Sayfa Yenileniyor...',
+                            title: '{{ __('common.please_wait') }}',
+                            text: '{{ __('common.page_refreshing') }}',
                             allowOutsideClick: false,
                             didOpen: () => {
                                 Swal.showLoading();
@@ -251,9 +251,9 @@
                 error: function () {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Hata',
-                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
-                        confirmButtonText: 'Tamam'
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.error_occurred') }}',
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 }
             });
@@ -267,7 +267,7 @@
         }
 
         function deleteAdmin(id) {
-            if (confirm('Bu yöneticiyi silmek istediğinizden emin misiniz?')) {
+            if (confirm('{{ __('common.delete_admin_confirm') }}')) {
                 // AJAX request for delete
             }
         }

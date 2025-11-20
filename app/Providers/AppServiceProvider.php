@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Helper dosyalarını yükle
+        require_once app_path('Helpers/enums.php');
     }
 
     /**

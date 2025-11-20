@@ -8,7 +8,7 @@
         <div class="col-span-12">
             <div class="box">
                 <div class="box-header">
-                    <h5 class="box-title">Hazır Paylaşımlar</h5>
+                    <h5 class="box-title">{{ __('common.ready_posts') }}</h5>
                 </div>
                 <div class="box-body">
                     <div class="overflow-auto table-bordered">

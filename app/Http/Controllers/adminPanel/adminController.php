@@ -23,12 +23,12 @@ class adminController extends Controller
             'user_name' => 'required|string|max:100|unique:admins,user_name',
             'password' => 'required|string|min:6|max:100',
         ], [
-            'name.required' => 'Adı alanı zorunludur.',
-            'surname.required' => 'Soyadı alanı zorunludur.',
-            'user_name.required' => 'Kullanıcı adı alanı zorunludur.',
-            'user_name.unique' => 'Bu kullanıcı adı zaten alınmış.',
-            'password.required' => 'Şifre alanı zorunludur.',
-            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+            'name.required' => __('common.name_required'),
+            'surname.required' => __('common.surname_required'),
+            'user_name.required' => __('common.user_name_required'),
+            'user_name.unique' => __('common.user_name_unique'),
+            'password.required' => __('common.password_required'),
+            'password.min' => __('common.password_min'),
         ]);
 
 
@@ -48,7 +48,7 @@ class adminController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Yönetici başarıyla oluşturuldu.'
+            'aciklama' => __('common.admin_created_success')
         ]);
     }
 
@@ -60,10 +60,10 @@ class adminController extends Controller
             'user_name' => 'sometimes|required|string|max:100|unique:admins,user_name,' . $id,
             'password' => 'sometimes|nullable|string|min:6|max:100',
         ], [
-            'name.required' => 'Adı alanı zorunludur.',
-            'surname.required' => 'Soyadı alanı zorunludur.',
-            'user_name.required' => 'Kullanıcı adı alanı zorunludur.',
-            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+            'name.required' => __('common.name_required'),
+            'surname.required' => __('common.surname_required'),
+            'user_name.required' => __('common.user_name_required'),
+            'password.min' => __('common.password_min'),
         ]);
 
 
@@ -86,7 +86,7 @@ class adminController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Yönetici başarıyla güncellendi.'
+            'aciklama' => __('common.admin_updated_success')
         ]);
     }
 
@@ -97,7 +97,7 @@ class adminController extends Controller
         if (!$admin) {
             return response()->json([
                 'hata' => 1,
-                'aciklama' => 'Yönetici bulunamadı.'
+                'aciklama' => __('common.admin_not_found')
             ]);
         }
 
@@ -105,7 +105,7 @@ class adminController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Yönetici başarıyla silindi.'
+            'aciklama' => __('common.admin_deleted')
         ]);
     }
 }

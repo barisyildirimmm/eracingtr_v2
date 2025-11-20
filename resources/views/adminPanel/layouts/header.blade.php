@@ -150,6 +150,23 @@
                 </div>
                 <!-- End light and dark theme -->
 
+                <!-- Language Switcher -->
+                <div class="header-element md:!px-[0.65rem] px-2 !items-center">
+                    <select id="language-select-admin" 
+                            class="form-select form-select-sm" 
+                            style="background: var(--default-body-bg-color); color: var(--default-text-color); border: 1px solid var(--default-border-color); padding: 5px 10px; border-radius: 4px; cursor: pointer; outline: none; min-width: 80px;">
+                        <option value="tr" {{ app()->getLocale() == 'tr' ? 'selected' : '' }}>🇹🇷 TR</option>
+                        <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 EN</option>
+                        <option value="de" {{ app()->getLocale() == 'de' ? 'selected' : '' }}>🇩🇪 DE</option>
+                        <option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>🇫🇷 FR</option>
+                        <option value="it" {{ app()->getLocale() == 'it' ? 'selected' : '' }}>🇮🇹 IT</option>
+                        <option value="pt" {{ app()->getLocale() == 'pt' ? 'selected' : '' }}>🇵🇹 PT</option>
+                        <option value="es" {{ app()->getLocale() == 'es' ? 'selected' : '' }}>🇪🇸 ES</option>
+                        <option value="az" {{ app()->getLocale() == 'az' ? 'selected' : '' }}>🇦🇿 AZ</option>
+                    </select>
+                </div>
+                <!-- Language Switcher / End -->
+
                 <!--Header Notifictaion -->
 {{--                <div--}}
 {{--                    class="header-element py-[1rem] md:px-[0.65rem] px-2 notifications-dropdown header-notification hs-dropdown ti-dropdown !hidden md:!block [--placement:bottom-left]">--}}
@@ -333,54 +350,25 @@
                 <!-- Header Profile -->
                 <div class="header-element md:!px-[0.65rem] px-2 hs-dropdown !items-center ti-dropdown [--placement:bottom-left]">
 
-{{--                    <button id="dropdown-profile" type="button"--}}
-{{--                        class="hs-dropdown-toggle ti-dropdown-toggle !gap-2 !p-0 flex-shrink-0 sm:me-2 me-0 !rounded-full !shadow-none text-xs align-middle !border-0 !shadow-transparent ">--}}
-{{--                        <img class="inline-block rounded-full " src="{{ asset('assets/panel/images/faces/9.jpg') }}"--}}
-{{--                            width="32" height="32" alt="Image Description">--}}
-{{--                    </button>--}}
+                    <button id="dropdown-profile" type="button"
+                        class="hs-dropdown-toggle ti-dropdown-toggle !gap-2 !p-0 flex-shrink-0 sm:me-2 me-0 !rounded-full !shadow-none text-xs align-middle !border-0 !shadow-transparent ">
+                        <div class="inline-block rounded-full bg-danger text-white flex items-center justify-center font-semibold" style="width: 32px; height: 32px;">
+                            {{ strtoupper(substr(session('adminInfo')->name, 0, 1) . substr(session('adminInfo')->surname, 0, 1)) }}
+                        </div>
+                    </button>
                     <div class="md:block hidden dropdown-profile">
                         <p class="font-semibold mb-0 leading-none text-[#536485] text-[0.813rem] ">{{ session('adminInfo')->name . " " . session('adminInfo')->surname }}</p>
-{{--                        <span class="opacity-[0.7] font-normal text-[#536485] block text-[0.6875rem] ">Web Designer</span>--}}
                     </div>
-{{--                    <div class="hs-dropdown-menu ti-dropdown-menu !-mt-3 border-0 w-[11rem] !p-0 border-defaultborder hidden main-header-dropdown  pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"--}}
-{{--                        aria-labelledby="dropdown-profile">--}}
+                    <div class="hs-dropdown-menu ti-dropdown-menu !-mt-3 border-0 w-[11rem] !p-0 border-defaultborder hidden main-header-dropdown  pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
+                        aria-labelledby="dropdown-profile">
 
-{{--                        <ul class="text-defaulttextcolor font-medium dark:text-[#8c9097] dark:text-white/50">--}}
-{{--                            <li>--}}
-{{--                                <a class="w-full ti-dropdown-item !text-[0.8125rem] !gap-x-0  !p-[0.65rem] !inline-flex"--}}
-{{--                                    href="profile.html">--}}
-{{--                                    <i class="ti ti-user-circle text-[1.125rem] me-2 opacity-[0.7]"></i>Profile--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li>--}}
-{{--                                <a class="w-full ti-dropdown-item !text-[0.8125rem] !gap-x-0  !p-[0.65rem] !inline-flex"--}}
-{{--                                    href="mail.html"><i--}}
-{{--                                        class="ti ti-inbox text-[1.125rem] me-2 opacity-[0.7]"></i>Inbox <span--}}
-{{--                                        class="!py-1 !px-[0.45rem] !font-semibold !rounded-sm text-success text-[0.75em] bg-success/10 ms-auto">25</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !gap-x-0 !p-[0.65rem] !inline-flex"--}}
-{{--                                    href="todo.html"><i--}}
-{{--                                        class="ti ti-clipboard-check text-[1.125rem] me-2 opacity-[0.7]"></i>Task--}}
-{{--                                    Manager</a></li>--}}
-{{--                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !gap-x-0 !p-[0.65rem] !inline-flex"--}}
-{{--                                    href="mail-settings.html"><i--}}
-{{--                                        class="ti ti-adjustments-horizontal text-[1.125rem] me-2 opacity-[0.7]"></i>Settings</a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !gap-x-0 !p-[0.65rem] !inline-flex "--}}
-{{--                                    href="javascript:void(0);"><i--}}
-{{--                                        class="ti ti-wallet text-[1.125rem] me-2 opacity-[0.7]"></i>Bal:--}}
-{{--                                    $7,12,950</a></li>--}}
-{{--                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex"--}}
-{{--                                    href="chat.html"><i--}}
-{{--                                        class="ti ti-headset text-[1.125rem] me-2 opacity-[0.7]"></i>Support</a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex"--}}
-{{--                                    href="sign-in-cover.html"><i--}}
-{{--                                        class="ti ti-logout text-[1.125rem] me-2 opacity-[0.7]"></i>Log Out</a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
+                        <ul class="text-defaulttextcolor font-medium dark:text-[#8c9097] dark:text-white/50">
+                            <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex"
+                                    href="{{ route('Alogout') }}"><i
+                                        class="ti ti-logout text-[1.125rem] me-2 opacity-[0.7]"></i>{{ __('common.logout') }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- End Header Profile -->
 

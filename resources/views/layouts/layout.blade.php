@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
 
     <!-- Basic Page Needs
  ================================================== -->
-    <title>eRacing Türkiye - Türkiye'nin Yarış Platformu</title>
+    <title>{{ __('common.site_title_full') }}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Türkiye'nin Yarış Platformu">
+    <meta name="description" content="{{ __('common.site_description_full') }}">
     <meta name="author" content="eRacingTR">
     <meta name="keywords" content="yaris, race, f1, formula, multiplayer, turnuva, lig">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -39,6 +39,7 @@
     <link href="{{ asset('assets/vendor/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/slick/slick.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/20.1.0/css/intlTelInput.css" />
 
     <!-- Template CSS-->
     <link href="{{ asset('assets/css/style-basketball-dark.css') }}?v=3" rel="stylesheet">
@@ -235,80 +236,198 @@
         @include('layouts.footer')
 
         <!-- Login/Register Modal -->
-        <div class="modal fade" id="modal-login-register" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modal-login-register" tabindex="-1" role="dialog" aria-labelledby="modal-login-register-label">
             <div class="modal-dialog modal-lg modal--login" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                <div class="modal-content" style="border-radius: 8px; border: none; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 20px 30px; border-bottom: 2px solid #dc3545; position: relative; display: flex; align-items: center; justify-content: space-between;">
+                        <h4 class="modal-title text-white" id="modal-login-register-label" style="margin: 0; font-weight: 600; font-size: 20px; line-height: 1.2;">
+                            <i class="fas fa-user-circle mr-2" style="color: #dc3545;"></i>{{ __('common.login_register') }}
+                        </h4>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" 
+                                style="opacity: 1; font-size: 24px; font-weight: 300; padding: 0; line-height: 1; background: rgba(0,0,0,0.3); border-radius: 4px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; margin: 0; border: none; position: relative; flex-shrink: 0;"
+                                onmouseover="this.style.background='rgba(220, 53, 69, 0.5)'"
+                                onmouseout="this.style.background='rgba(0,0,0,0.3)'">
+                            <span aria-hidden="true" style="line-height: 1; display: block;">&times;</span>
+                        </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="padding: 30px; background: #222;">
 
-                        <div class="modal-account-holder">
-                            <div class="modal-account__item">
+                        <!-- Tab Navigation -->
+                        <div class="d-flex mb-4" style="gap: 10px; border-bottom: 2px solid #333; padding-bottom: 0;">
+                            <button type="button" class="btn-tab-auth active" id="login-tab-btn" onclick="switchAuthTab('login')" 
+                                    style="flex: 1; background: #dc3545; color: white; border: none; border-radius: 6px 6px 0 0; padding: 12px 20px; font-weight: 600; transition: all 0.3s; cursor: pointer; position: relative; bottom: -2px;">
+                                <i class="fas fa-sign-in-alt mr-2"></i>{{ __('common.login_title') }}
+                            </button>
+                            <button type="button" class="btn-tab-auth" id="register-tab-btn" onclick="switchAuthTab('register')" 
+                                    style="flex: 1; background: #444; color: #999; border: none; border-radius: 6px 6px 0 0; padding: 12px 20px; font-weight: 600; transition: all 0.3s; cursor: pointer; position: relative; bottom: -2px;">
+                                <i class="fas fa-user-plus mr-2"></i>{{ __('common.register_title') }}
+                            </button>
+                        </div>
+                        <style>
+                            .btn-tab-auth:hover {
+                                background: #555 !important;
+                                color: #fff !important;
+                            }
+                            .btn-tab-auth.active {
+                                background: #dc3545 !important;
+                                color: white !important;
+                            }
+                        </style>
+                        <script>
+                            function switchAuthTab(tab) {
+                                // Tüm tab butonlarını deaktif yap
+                                document.querySelectorAll('.btn-tab-auth').forEach(btn => {
+                                    btn.classList.remove('active');
+                                    btn.style.background = '#444';
+                                    btn.style.color = '#999';
+                                });
+                                
+                                // Tüm tab panellerini gizle
+                                document.querySelectorAll('.tab-pane').forEach(pane => {
+                                    pane.classList.remove('show', 'active');
+                                });
+                                
+                                // Seçilen tab'ı aktif yap
+                                if(tab === 'login') {
+                                    document.getElementById('login-tab-btn').classList.add('active');
+                                    document.getElementById('login-tab-btn').style.background = '#dc3545';
+                                    document.getElementById('login-tab-btn').style.color = 'white';
+                                    document.getElementById('login').classList.add('show', 'active');
+                                } else {
+                                    document.getElementById('register-tab-btn').classList.add('active');
+                                    document.getElementById('register-tab-btn').style.background = '#dc3545';
+                                    document.getElementById('register-tab-btn').style.color = 'white';
+                                    document.getElementById('register').classList.add('show', 'active');
+                                }
+                            }
+                        </script>
 
-                                <!-- Register Form -->
-                                <form id="registerForm" class="modal-form">
-                                    @csrf
-                                    <h5>KAYIT OL !</h5>
-                                    <div class="form-group">
-                                        <input type="name" class="form-control" name="name" placeholder="İsim" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="name" class="form-control" name="surname" placeholder="Soyisim" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="name" class="form-control" id="gsm" name="gsm" placeholder="Telefon Numarası" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email" placeholder="E-posta" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="password" placeholder="Şifre" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="password_confirmation"
-                                            placeholder="Şifreyi Tekrar Girin" required>
-                                    </div>
-                                    <div class="form-group form-group--submit">
-                                        <button type="button" onclick="registerUser()"
-                                            class="btn btn-primary-inverse btn-block">HESAP OLUŞTUR</button>
-                                    </div>
-                                    <div class="modal-form--note">Kayıt işlemi tamamlandığında, mail adresini onaylamak için bir mail gönderilecek. </div>
-                                </form>
-                                <!-- Register Form / End -->
-
-                            </div>
-                            <div class="modal-account__item">
-                                <!-- Login Form -->
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="authTabsContent">
+                            <!-- Login Form -->
+                            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                                 <form id="loginForm" class="modal-form">
                                     @csrf
-                                    <h5>GİRİŞ YAP</h5>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email"
-                                            placeholder="E-posta" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="password"
-                                            placeholder="Şifre" required>
-                                    </div>
-                                    {{-- <div class="form-group form-group--pass-reminder">
-                                        <label class="checkbox checkbox-inline">
-                                            <input type="checkbox" id="inlineCheckbox1" name="remember"
-                                                value="1">
-                                            Remember Me
-                                            <span class="checkbox-indicator"></span>
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                            <i class="fas fa-envelope mr-2" style="color: #dc3545;"></i>{{ __('common.email_placeholder') }}
                                         </label>
-                                        <a href="#">Forgot your password?</a>
-                                    </div> --}}
-                                    <div class="form-group form-group--submit">
+                                        <input type="email" class="form-control" name="email" 
+                                            placeholder="{{ __('common.email_placeholder') }}" required
+                                            style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                            onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                            onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 25px;">
+                                        <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                            <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_placeholder') }}
+                                        </label>
+                                        <input type="password" class="form-control" name="password"
+                                            placeholder="{{ __('common.password_placeholder') }}" required
+                                            style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                            onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                            onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                    </div>
+                                    <div class="form-group form-group--submit" style="margin-bottom: 15px;">
                                         <button type="button" onclick="loginUser()"
-                                            class="btn btn-primary-inverse btn-block">GİRİŞ YAP</button>
+                                            class="btn btn-block" 
+                                            style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 14px; font-weight: 600; font-size: 16px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);"
+                                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 53, 69, 0.6)'; this.style.background='linear-gradient(135deg, #c82333 0%, #bd2130 100%)'"
+                                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(220, 53, 69, 0.4)'; this.style.background='linear-gradient(135deg, #dc3545 0%, #c82333 100%)'">
+                                            <i class="fas fa-sign-in-alt mr-2"></i>{{ __('common.login_title') }}
+                                        </button>
                                     </div>
                                 </form>
-                                <!-- Login Form / End -->
-
                             </div>
+                            <!-- Login Form / End -->
+
+                            <!-- Register Form -->
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                <form id="registerForm" class="modal-form">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-bottom: 20px;">
+                                                <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                                    <i class="fas fa-user mr-2" style="color: #dc3545;"></i>{{ __('common.name_placeholder') }}
+                                                </label>
+                                                <input type="text" class="form-control" name="name" placeholder="{{ __('common.name_placeholder') }}" required
+                                                    style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                                    onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                                    onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-bottom: 20px;">
+                                                <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                                    <i class="fas fa-user mr-2" style="color: #dc3545;"></i>{{ __('common.surname_placeholder') }}
+                                                </label>
+                                                <input type="text" class="form-control" name="surname" placeholder="{{ __('common.surname_placeholder') }}" required
+                                                    style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                                    onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                                    onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                            <i class="fas fa-phone mr-2" style="color: #dc3545;"></i>{{ __('common.phone_placeholder_form') }}
+                                        </label>
+                                        <input type="tel" class="form-control" id="gsm" name="gsm" placeholder="{{ __('common.phone_placeholder_form') }}" required
+                                            style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s; width: 100%;"
+                                            onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                            onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                    </div>
+                                    <input type="hidden" id="gsm_country_code" name="country_code" value="">
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                            <i class="fas fa-envelope mr-2" style="color: #dc3545;"></i>{{ __('common.email_placeholder') }}
+                                        </label>
+                                        <input type="email" class="form-control" name="email" placeholder="{{ __('common.email_placeholder') }}" required
+                                            style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                            onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                            onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-bottom: 20px;">
+                                                <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                                    <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_placeholder') }}
+                                                </label>
+                                                <input type="password" class="form-control" name="password" placeholder="{{ __('common.password_placeholder') }}" required
+                                                    style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                                    onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                                    onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-bottom: 25px;">
+                                                <label style="color: #fff; font-weight: 500; margin-bottom: 8px; display: block;">
+                                                    <i class="fas fa-lock mr-2" style="color: #dc3545;"></i>{{ __('common.password_confirmation_placeholder') }}
+                                                </label>
+                                                <input type="password" class="form-control" name="password_confirmation"
+                                                    placeholder="{{ __('common.password_confirmation_placeholder') }}" required
+                                                    style="background: #333; border: 2px solid #444; color: #fff; border-radius: 6px; padding: 12px 15px; transition: all 0.3s;"
+                                                    onfocus="this.style.borderColor='#dc3545'; this.style.boxShadow='0 0 0 3px rgba(220, 53, 69, 0.2)'; this.style.background='#3a3a3a'"
+                                                    onblur="this.style.borderColor='#444'; this.style.boxShadow='none'; this.style.background='#333'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group--submit" style="margin-bottom: 15px;">
+                                        <button type="button" onclick="registerUser()"
+                                            class="btn btn-block"
+                                            style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 6px; padding: 14px; font-weight: 600; font-size: 16px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);"
+                                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 53, 69, 0.6)'; this.style.background='linear-gradient(135deg, #c82333 0%, #bd2130 100%)'"
+                                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(220, 53, 69, 0.4)'; this.style.background='linear-gradient(135deg, #dc3545 0%, #c82333 100%)'">
+                                            <i class="fas fa-user-plus mr-2"></i>{{ __('common.create_account') }}
+                                        </button>
+                                    </div>
+                                    <div class="modal-form--note" style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">
+                                        <i class="fas fa-info-circle mr-2" style="color: #dc3545;"></i>{{ __('common.register_note') }}
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Register Form / End -->
                         </div>
                     </div>
                 </div>
@@ -333,13 +452,182 @@
     <!-- Template JS -->
     <script src="{{ asset('assets/js/init.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/20.1.0/js/intlTelInput.min.js"></script>
     <script src="https://unpkg.com/imask"></script>
     <script>
 
-        const gsmInput = $('#gsm');
-        IMask(gsmInput[0], {
-            mask: '+{90} (000) 000 00 00',
+        // Telefon numarası için ülke bazlı mask
+        let iti = null;
+        let gsmInput = null;
+        
+        function initPhoneInput() {
+            gsmInput = document.querySelector('#gsm');
+            if (gsmInput && !iti) {
+                iti = window.intlTelInput(gsmInput, {
+                    initialCountry: "tr",
+                    preferredCountries: ["tr", "us", "gb", "de", "fr", "it", "es", "pt"],
+                    separateDialCode: true,
+                    nationalMode: false,
+                    autoFormat: true,
+                    autoPlaceholder: "aggressive",
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/20.1.0/js/utils.js"
+                });
+
+            // Stil düzenlemeleri
+            const itiContainer = gsmInput.closest('.form-group');
+            const itiWrapper = gsmInput.parentElement;
+            if (itiWrapper) {
+                itiWrapper.style.position = 'relative';
+                itiWrapper.style.display = 'block';
+            }
+
+            // IMask ile telefon numarası formatlama
+            let phoneMask = null;
+            
+            function updatePhoneMask() {
+                if (phoneMask) {
+                    phoneMask.destroy();
+                }
+                
+                const countryData = iti.getSelectedCountryData();
+                const countryCode = countryData.iso2;
+                
+                // Ülkeye göre maske tanımlamaları (sadece numara kısmı, dial code ayrı gösteriliyor)
+                const masks = {
+                    'tr': '(000) 000 00 00',
+                    'us': '(000) 000-0000',
+                    'gb': '0000 000000',
+                    'de': '000 00000000',
+                    'fr': '0 00 00 00 00',
+                    'it': '000 000 0000',
+                    'es': '000 000 000',
+                    'pt': '000 000 000'
+                };
+                
+                // Varsayılan maske
+                let maskPattern = masks[countryCode] || '000000000000';
+                
+                phoneMask = IMask(gsmInput, {
+                    mask: maskPattern,
+                    lazy: false
+                });
+            }
+
+            // Input stillerini güncelle
+            gsmInput.addEventListener('focus', function() {
+                this.style.borderColor = '#dc3545';
+                this.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.2)';
+                this.style.background = '#3a3a3a';
+            });
+
+            gsmInput.addEventListener('blur', function() {
+                this.style.borderColor = '#444';
+                this.style.boxShadow = 'none';
+                this.style.background = '#333';
+            });
+            
+            // İlk maske oluşturma
+            updatePhoneMask();
+
+            // Ülke seçici stillerini düzenle
+            gsmInput.addEventListener('countrychange', function() {
+                const countryData = iti.getSelectedCountryData();
+                document.getElementById('gsm_country_code').value = '+' + countryData.dialCode;
+                
+                // Maske'yi güncelle
+                updatePhoneMask();
+                
+                // Input'u temizle
+                gsmInput.value = '';
+                
+                // Ülke seçici dropdown stillerini güncelle
+                const countryList = document.querySelector('.iti__country-list');
+                if (countryList) {
+                    countryList.style.background = '#333';
+                    countryList.style.border = '2px solid #444';
+                    countryList.style.color = '#fff';
+                }
+            });
+
+            // İlk yüklemede ülke kodunu ayarla
+            const initialCountryData = iti.getSelectedCountryData();
+            document.getElementById('gsm_country_code').value = '+' + initialCountryData.dialCode;
+
+            // Telefon numarası doğrulama fonksiyonu
+            window.validatePhoneNumber = function() {
+                if (!iti || !gsmInput || !iti.isValidNumber()) {
+                    Swal.fire({
+                        title: '{{ __('common.error') }}',
+                        text: 'Lütfen geçerli bir telefon numarası girin.',
+                        icon: 'error',
+                        confirmButtonText: '{{ __('common.ok') }}'
+                    });
+                    return false;
+                }
+                const fullNumber = iti.getNumber();
+                gsmInput.value = fullNumber;
+                return true;
+            };
+
+            // CSS stilleri için ek düzenlemeler
+            const style = document.createElement('style');
+            style.textContent = `
+                .iti {
+                    width: 100%;
+                }
+                .iti__flag-container {
+                    background: #333;
+                    border-right: 2px solid #444;
+                }
+                .iti__selected-flag {
+                    background: #333;
+                    border-radius: 6px 0 0 6px;
+                    padding: 12px 10px;
+                }
+                .iti__selected-flag:hover {
+                    background: #3a3a3a;
+                }
+                .iti__arrow {
+                    border-top-color: #fff;
+                }
+                .iti__country-list {
+                    background: #333 !important;
+                    border: 2px solid #444 !important;
+                    color: #fff !important;
+                }
+                .iti__country {
+                    color: #fff !important;
+                }
+                .iti__country:hover,
+                .iti__country.iti__highlight {
+                    background: #dc3545 !important;
+                }
+                .iti__dial-code {
+                    color: #999;
+                }
+                #gsm {
+                    padding-left: 80px !important;
+                }
+            `;
+            document.head.appendChild(style);
+            }
+        }
+
+        // Modal açıldığında telefon input'unu initialize et
+        $('#modal-login-register').on('shown.bs.modal', function() {
+            setTimeout(function() {
+                if (!iti) {
+                    initPhoneInput();
+                }
+            }, 100);
         });
+
+        // Sayfa yüklendiğinde de initialize et
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPhoneInput);
+        } else {
+            initPhoneInput();
+        }
 
         $.ajaxSetup({
             headers: {
@@ -348,10 +636,10 @@
         });
         function yapimAsamasinda() {
             Swal.fire({
-                title: 'Yapım Aşamasında',
-                text: 'Çok yakında bu bölüm aktif olacak.',
+                title: '{{ __('common.under_construction') }}',
+                text: '{{ __('common.under_construction_text') }}',
                 icon: 'warning',
-                confirmButtonText: 'Tamam'
+                confirmButtonText: '{{ __('common.ok') }}'
             });
         }
 
@@ -363,17 +651,17 @@
                 success: function(response) {
                     if (response.hata === 1) {
                         Swal.fire({
-                            title: 'Hata',
+                            title: '{{ __('common.error') }}',
                             text: response.aciklama,
                             icon: 'error',
-                            confirmButtonText: 'Tamam'
+                            confirmButtonText: '{{ __('common.ok') }}'
                         });;
                     } else {
                         Swal.fire({
-                            title: 'Başarılı',
-                            text: 'Giriş başarılı! Yönlendiriliyorsunuz...',
+                            title: '{{ __('common.login_success') }}',
+                            text: '{{ __('common.login_success_text') }}',
                             icon: 'success',
-                            confirmButtonText: 'Tamam'
+                            confirmButtonText: '{{ __('common.ok') }}'
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -381,16 +669,21 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: 'Hata',
-                        text: 'Beklenmedik bir hata oluştu.',
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: 'Tamam'
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 }
             });
         }
 
         function registerUser() {
+            // Telefon numarası doğrulaması
+            if (typeof window.validatePhoneNumber === 'function' && !window.validatePhoneNumber()) {
+                return;
+            }
+
             $.ajax({
                 url: '{{ route('DregisterPost') }}',
                 type: 'POST',
@@ -398,17 +691,17 @@
                 success: function(response) {
                     if (response.hata === 1) {
                         Swal.fire({
-                            title: 'Hata',
+                            title: '{{ __('common.error') }}',
                             text: response.aciklama,
                             icon: 'error',
-                            confirmButtonText: 'Tamam'
+                            confirmButtonText: '{{ __('common.ok') }}'
                         });
                     } else {
                         Swal.fire({
-                            title: 'Başarılı',
-                            text: 'Hesabınız başarıyla oluşturuldu! Yönlendiriliyorsunuz...',
+                            title: '{{ __('common.register_success') }}',
+                            text: '{{ __('common.register_success_text') }}',
                             icon: 'success',
-                            confirmButtonText: 'Tamam'
+                            confirmButtonText: '{{ __('common.ok') }}'
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -416,10 +709,10 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: 'Hata',
-                        text: 'Beklenmedik bir hata oluştu.',
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: 'Tamam'
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 }
             });
@@ -436,10 +729,10 @@
                     // Çıkış işlemi başarılı olduysa
                     if (response.hata == 0) {
                         Swal.fire({
-                            title: 'Başarılı',
-                            text: 'Başarıyla Çıkış Yapıldı!',
+                            title: '{{ __('common.logout_success') }}',
+                            text: '{{ __('common.logout_success_text') }}',
                             icon: 'success',
-                            confirmButtonText: 'Tamam'
+                            confirmButtonText: '{{ __('common.ok') }}'
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -448,14 +741,50 @@
                 error: function(xhr, status, error) {
                     // Eğer hata oluşursa
                     Swal.fire({
-                        title: 'Hata',
-                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                        title: '{{ __('common.error') }}',
+                        text: '{{ __('common.error_occurred') }}',
                         icon: 'error',
-                        confirmButtonText: 'Tamam'
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 }
             });
         }
+
+        // Dil değiştirme
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                languageSelect.addEventListener('change', function() {
+                    const locale = this.value;
+                    
+                    fetch('{{ route("change.locale") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ locale: locale })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Sayfayı yenile
+                            window.location.reload();
+                        } else {
+                            alert('{{ __('common.language_change_failed') }}');
+                            // Select'i eski değere geri al
+                            languageSelect.value = '{{ app()->getLocale() }}';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('{{ __('common.language_change_error') }}');
+                        // Select'i eski değere geri al
+                        languageSelect.value = '{{ app()->getLocale() }}';
+                    });
+                });
+            }
+        });
     </script>
 </body>
 

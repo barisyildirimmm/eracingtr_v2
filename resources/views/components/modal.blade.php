@@ -26,7 +26,7 @@
                             </div>
                         @endif
                     @endforeach
-                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                    <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
                 </form>
             </div>
         </div>

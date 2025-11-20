@@ -2,13 +2,18 @@
 
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\f1\leagueController as f1LeagueController;
+use App\Http\Controllers\driverController as driverController;
 
 use App\Http\Controllers\adminPanel\authController as APauthController;
 use App\Http\Controllers\adminPanel\dashboardController as APdashboardController;
+use App\Http\Controllers\adminPanel\nextRaceStatsController as APnextRaceStatsController;
 use App\Http\Controllers\adminPanel\driverController as APdriverController;
 
 use App\Http\Controllers\adminPanel\leagues\leagueController as APleagueController;
+use App\Http\Controllers\adminPanel\leagues\leagueTracksController as APleagueTracksController;
+use App\Http\Controllers\adminPanel\leagues\leagueDriversController as APleagueDriversController;
 use App\Http\Controllers\adminPanel\leagues\raceResultsController as APraceResultsController;
+use App\Http\Controllers\adminPanel\leagues\refDecisionController as APrefDecisionController;
 
 use App\Http\Controllers\adminPanel\teamController as APteamController;
 use App\Http\Controllers\adminPanel\trackController as APtrackController;
@@ -20,15 +25,42 @@ use App\Http\Controllers\adminPanel\postContentTemplatesController as APpostCont
 use App\Http\Controllers\driverPanel\authController as DPauthController;
 use App\Http\Controllers\driverPanel\dashboardController as DPdashboardController;
 use App\Http\Controllers\driverPanel\refDecisionController as DPrefDecisionController;
+use App\Http\Controllers\driverPanel\profileController as DPprofileController;
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DriverMiddleware;
 
 use Illuminate\Support\Facades\Route;
 
+// Dil değiştirme route'u
+Route::post('change-locale', function (\Illuminate\Http\Request $request) {
+    $locale = $request->input('locale');
+    $supportedLocales = ['tr', 'en', 'de', 'fr', 'it', 'pt', 'es', 'az'];
+    
+    if (in_array($locale, $supportedLocales)) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+        
+        return response()->json([
+            'success' => true,
+            'locale' => $locale,
+            'message' => 'Language changed successfully'
+        ]);
+    }
+    
+    return response()->json([
+        'success' => false,
+        'message' => 'Invalid locale'
+    ], 400);
+})->name('change.locale');
+
 Route::get('/', [dashboardController::class, 'index'])->name('home');
 
+Route::get('istatistikler', [dashboardController::class, 'statistics'])->name('statistics');
+Route::get('istatistikler/{trackId}', [dashboardController::class, 'statistics'])->name('statistics.track');
+
 Route::get('kural-kitapcigi', [dashboardController::class, 'ruleBook'])->name('roolBook');
+Route::get('takvim', [dashboardController::class, 'calendar'])->name('calendar');
 
 Route::post('giris', [DPauthController::class, 'loginPost'])->name('DloginPost');
 Route::post('register', [DPauthController::class, 'registerPost'])->name('DregisterPost');
@@ -39,19 +71,24 @@ Route::post('loginPostA', [APauthController::class, 'loginPost'])->name('AloginP
 
 Route::get('puan-tablosu-{leagueLink}', [f1LeagueController::class, 'pointTable'])->name('f1Leagues.pointTable');
 Route::get('yaris-sonuclari-{leagueLink}/{trackId?}', [f1LeagueController::class, 'results'])->name('f1Leagues.results');
-Route::get('hakem-kararlari-{leagueLink}', [f1LeagueController::class, 'refDecisions'])->name('f1Leagues.refDecisions');
+Route::get('hakem-kararlari-{leagueLink}/{trackId?}', [f1LeagueController::class, 'refDecisions'])->name('f1Leagues.refDecisions');
 Route::get('canli-yayinlar-{leagueLink}', [f1LeagueController::class, 'liveBroadcasts'])->name('f1Leagues.liveBroadcasts');
 Route::get('fikstur-{leagueLink}', [f1LeagueController::class, 'schedule'])->name('f1Leagues.schedule');
+Route::get('gecmis-sezonlar', [f1LeagueController::class, 'pastSeasons'])->name('f1Leagues.pastSeasons');
 
-
+Route::get('pilot-d/{driverSlug}', [driverController::class, 'show'])->name('driver.show');
 
 Route::middleware([DriverMiddleware::class])->prefix('pilot')->group(function () {
     Route::get('/logout', [DPauthController::class, 'logout'])->name('Dlogout');
     Route::get('/', [DPdashboardController::class, 'index'])->name('Dhome');
 
+    Route::get('/profil', [DPprofileController::class, 'index'])->name('driver.profile');
+    Route::post('/profil-guncelle', [DPprofileController::class, 'update'])->name('driver.profile.update');
+    Route::post('/email-dogrulama-gonder', [DPprofileController::class, 'resendVerificationEmail'])->name('driver.profile.resendVerification');
+
     Route::get('/sikayetlerim', [DPrefDecisionController::class, 'showComplaints'])->name('referee.decisions.complaints');
     Route::post('/sikayet-gonder', [DPrefDecisionController::class, 'postComplaint'])->name('driver.complaints.submit');
-    Route::delete('/sikayet-sil/{id}', [App\Http\Controllers\driverPanel\refDecisionController::class, 'deleteComplaint'])->name('driver.complaints.delete');
+    Route::delete('/sikayet-sil/{id}', [DPrefDecisionController::class, 'deleteComplaint'])->name('driver.complaints.delete');
 
     Route::get('/savunmalarim', [DPrefDecisionController::class, 'showDefenses'])->name('referee.decisions.defenses');
     Route::post('/savunma-gonder', [DPrefDecisionController::class, 'postDefense'])->name('driver.defenses.submit');
@@ -63,14 +100,48 @@ Route::middleware([DriverMiddleware::class])->prefix('pilot')->group(function ()
 Route::middleware([AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', [APdashboardController::class, 'index'])->name('Ahome');
     Route::get('/logout', [APauthController::class, 'logout'])->name('Alogout');
+    Route::get('/gelecek-yaris-istatistikleri', [APnextRaceStatsController::class, 'index'])->name('admin.nextRaceStats');
 
     Route::get('pilot-listesi', [APdriverController::class, 'listDrivers'])->name('admin.drivers.list');
     Route::post('pilot-olustur', [APdriverController::class, 'createDriver'])->name('admin.drivers.create');
     Route::put('pilot-duzenle/{id}', [APdriverController::class, 'editDriver'])->name('admin.drivers.edit');
+    Route::post('pilot-email-onayla/{id}', [APdriverController::class, 'verifyEmail'])->name('admin.drivers.verifyEmail');
+    Route::post('pilot-telefon-onayla/{id}', [APdriverController::class, 'verifyPhone'])->name('admin.drivers.verifyPhone');
 
     Route::get('lig-listesi', [APleagueController::class, 'listLeagues'])->name('admin.leagues.list');
     Route::post('lig-olustur', [APleagueController::class, 'createLeague'])->name('admin.leagues.create');
     Route::put('lig-duzenle/{id}', [APleagueController::class, 'editLeague'])->name('admin.leagues.edit');
+
+    Route::get('lig-pistleri/{league_id}', [APleagueTracksController::class, 'listLeaguesTracks'])->name('admin.leagues.leaguesTracks');
+    Route::post('lig-pist-ekle', [APleagueTracksController::class, 'createLeagueTrack'])->name('admin.leagues.createLeagueTrack');
+    Route::post('lig-pist-duzenle', [APleagueTracksController::class, 'editLeagueTrack'])->name('admin.leagues.editLeagueTrack');
+    Route::post('lig-pist-sil', [APleagueTracksController::class, 'deleteLeagueTrack'])->name('admin.leagues.deleteLeagueTrack');
+    
+    Route::get('lig-yaris-videolari/{league_id}', [APleagueTracksController::class, 'listRaceVideos'])->name('admin.leagues.raceVideos');
+    Route::post('lig-yaris-video-guncelle', [APleagueTracksController::class, 'updateRaceVideo'])->name('admin.leagues.updateRaceVideo');
+
+    Route::get('lig-pilotlari/{league_id}', [APleagueDriversController::class, 'listLeagueDrivers'])->name('admin.leagues.leagueDrivers');
+    Route::post('lig-pilot-ekle', [APleagueDriversController::class, 'addDriversToLeague'])->name('admin.leagues.addDriversToLeague');
+    Route::post('lig-pilot-cikar', [APleagueDriversController::class, 'removeDriversFromLeague'])->name('admin.leagues.removeDriversFromLeague');
+    Route::post('lig-pilot-takim-guncelle', [APleagueDriversController::class, 'updateDriverTeam'])->name('admin.leagues.updateDriverTeam');
+
+    Route::get('lig-secmeleri/{league_id}', [APleagueController::class, 'listTryouts'])->name('admin.leagues.tryouts');
+    Route::post('lig-secme-sonucu-kaydet', [APleagueController::class, 'saveTryoutResult'])->name('admin.leagues.saveTryoutResult');
+    Route::post('lig-secme-sonucu-guncelle', [APleagueController::class, 'updateTryoutResult'])->name('admin.leagues.updateTryoutResult');
+
+    Route::get('lig-hakem-kararlari/{league_id}', [APrefDecisionController::class, 'listRefDecisions'])->name('admin.leagues.refDecisions');
+    Route::get('lig-hakem-kararlari/{league_id}/yaris/{track_id}', [APrefDecisionController::class, 'showTrackDecisions'])->name('admin.leagues.refDecisions.track');
+    Route::post('lig-hakem-karar-detay-guncelle', [APrefDecisionController::class, 'updateDecisionDetail'])->name('admin.leagues.updateDecisionDetail');
+    
+    Route::get('cezalar', [APrefDecisionController::class, 'listPenalties'])->name('admin.penalties.list');
+    Route::post('ceza-olustur', [APrefDecisionController::class, 'createPenalty'])->name('admin.penalties.create');
+    Route::put('ceza-duzenle/{id}', [APrefDecisionController::class, 'updatePenalty'])->name('admin.penalties.update');
+    Route::delete('ceza-sil/{id}', [APrefDecisionController::class, 'deletePenalty'])->name('admin.penalties.delete');
+    
+    Route::get('ceza-aciklamalari', [APrefDecisionController::class, 'listPenaltyDescs'])->name('admin.penaltyDescs.list');
+    Route::post('ceza-aciklamasi-olustur', [APrefDecisionController::class, 'createPenaltyDesc'])->name('admin.penaltyDescs.create');
+    Route::put('ceza-aciklamasi-duzenle/{id}', [APrefDecisionController::class, 'updatePenaltyDesc'])->name('admin.penaltyDescs.update');
+    Route::delete('ceza-aciklamasi-sil/{id}', [APrefDecisionController::class, 'deletePenaltyDesc'])->name('admin.penaltyDescs.delete');
 
     Route::get('ligler-yaris-sonuclari/{league_id}/{track_id?}', [APraceResultsController::class, 'listRaceResult'])->name('admin.leagues.raceResults');
     Route::post('ligler-yaris-sonuc-guncelle', [APraceResultsController::class, 'updateRaceResults'])->name('admin.leagues.updateRaceResults');

@@ -28,6 +28,31 @@ if (!function_exists('tarihBicimi')) {
         if($format == 1){
             return "$day $month $year";
         }
+        if($format == 4){
+            return "$day $month $year $time";
+        }
         return "$day $month $year $time";
+    }
+}
+
+if (!function_exists('driverSlug')) {
+    function driverSlug($name, $surname, $id)
+    {
+        // Türkçe karakterleri dönüştür
+        $turkish = ['ç', 'Ç', 'ğ', 'Ğ', 'ı', 'İ', 'ö', 'Ö', 'ş', 'Ş', 'ü', 'Ü'];
+        $english = ['c', 'C', 'g', 'G', 'i', 'I', 'o', 'O', 's', 'S', 'u', 'U'];
+        
+        $name = str_replace($turkish, $english, mb_strtolower($name, 'UTF-8'));
+        $surname = str_replace($turkish, $english, mb_strtolower($surname, 'UTF-8'));
+        
+        // Özel karakterleri temizle ve boşlukları tire ile değiştir
+        $name = preg_replace('/[^a-z0-9]+/', '-', $name);
+        $surname = preg_replace('/[^a-z0-9]+/', '-', $surname);
+        
+        // Başta ve sonda tire varsa temizle
+        $name = trim($name, '-');
+        $surname = trim($surname, '-');
+        
+        return $name . '-' . $surname . '-' . $id;
     }
 }

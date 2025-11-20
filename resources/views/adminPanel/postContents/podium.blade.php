@@ -95,15 +95,15 @@
     <div class="grid grid-cols-12 gap-6 mt-6">
         <div class="col-span-12">
             <div class="box">
-                <div class="box-header"><h5 class="box-title">Hazır Paylaşımlar — PODIUM</h5></div>
+                <div class="box-header"><h5 class="box-title">{{ __('common.ready_posts_podium') }}</h5></div>
                 <div class="box-body">
 
                     <!-- Controls -->
                     <div class="mb-4" style="display:flex;gap:12px;flex-wrap:wrap;align-items:end">
                         <div>
-                            <label class="form-label">P1 Pilot</label>
+                            <label class="form-label">{{ __('common.p1_driver') }}</label>
                             <select id="p1Select" class="select2 form-control" style="width:260px">
-                                <option value="">Seçiniz...</option>
+                                <option value="">{{ __('common.select_status') }}</option>
                                 @foreach($drivers as $d)
                                     <option value="{{ $d->id }}" data-name="{{ $d->name }}" data-surname="{{ $d->surname }}">
                                         {{ $d->name }} {{ $d->surname }}
@@ -112,9 +112,9 @@
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">P2 Pilot</label>
+                            <label class="form-label">{{ __('common.p2_driver') }}</label>
                             <select id="p2Select" class="select2 form-control" style="width:260px">
-                                <option value="">Seçiniz...</option>
+                                <option value="">{{ __('common.select_status') }}</option>
                                 @foreach($drivers as $d)
                                     <option value="{{ $d->id }}" data-name="{{ $d->name }}" data-surname="{{ $d->surname }}">
                                         {{ $d->name }} {{ $d->surname }}
@@ -123,9 +123,9 @@
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">P3 Pilot</label>
+                            <label class="form-label">{{ __('common.p3_driver') }}</label>
                             <select id="p3Select" class="select2 form-control" style="width:260px">
-                                <option value="">Seçiniz...</option>
+                                <option value="">{{ __('common.select_status') }}</option>
                                 @foreach($drivers as $d)
                                     <option value="{{ $d->id }}" data-name="{{ $d->name }}" data-surname="{{ $d->surname }}">
                                         {{ $d->name }} {{ $d->surname }}
@@ -134,9 +134,9 @@
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Pist</label>
+                            <label class="form-label">{{ __('common.track') }}</label>
                             <select id="trackSelect" class="select2 form-control" style="width:260px">
-                                <option value="">Seçiniz...</option>
+                                <option value="">{{ __('common.select_status') }}</option>
                                 @foreach($tracks as $t)
                                     <option value="{{ $t->id }}" data-name="{{ $t->name }}">{{ $t->name }}</option>
                                 @endforeach
@@ -145,8 +145,8 @@
 
                         <div>
                             <label class="form-label">&nbsp;</label><br>
-                            <button id="btnPreview" class="btn btn-primary">Önizle</button>
-                            <button id="btnDownload" class="btn btn-success">PNG İndir</button>
+                            <button id="btnPreview" class="btn btn-primary">{{ __('common.preview') }}</button>
+                            <button id="btnDownload" class="btn btn-success">{{ __('common.download_png') }}</button>
                         </div>
                     </div>
 
@@ -193,7 +193,7 @@
 
     <script>
         $(function(){
-            $('#p1Select,#p2Select,#p3Select,#trackSelect').select2({ width:'260px', placeholder:'Seçiniz...' });
+            $('#p1Select,#p2Select,#p3Select,#trackSelect').select2({ width:'260px', placeholder:'{{ __('common.select_status') }}' });
 
             const $imgP1 = $('#imgP1'), $imgP2 = $('#imgP2'), $imgP3 = $('#imgP3');
             const $labelP1 = $('#labelP1'), $labelP2 = $('#labelP2'), $labelP3 = $('#labelP3');
@@ -258,7 +258,7 @@
                     a.href=cv.toDataURL('image/png');
                     a.click();
                 }).catch(e=>{
-                    alert('PNG oluşturulamadı (muhtemelen CORS). Gerekirse image proxy kuralım.');
+                    alert('{{ __('common.png_cannot_be_created') }}');
                     console.error(e);
                 });
             });

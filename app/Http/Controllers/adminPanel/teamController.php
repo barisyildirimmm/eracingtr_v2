@@ -20,7 +20,7 @@ class teamController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
         ], [
-            'name.required' => 'Adı alanı zorunludur.'
+            'name.required' => __('common.name_required')
         ]);
 
         if ($validator->fails()) {
@@ -38,7 +38,7 @@ class teamController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Takım başarıyla oluşturuldu.'
+            'aciklama' => __('common.team_created')
         ]);
     }
 
@@ -47,7 +47,7 @@ class teamController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:50',
         ], [
-            'name.required' => 'Adı alanı zorunludur.'
+            'name.required' => __('common.name_required')
         ]);
 
         if ($validator->fails()) {
@@ -66,7 +66,7 @@ class teamController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Takım başarıyla güncellendi.'
+            'aciklama' => __('common.team_updated')
         ]);
     }
 
@@ -77,7 +77,7 @@ class teamController extends Controller
         if (!$team) {
             return response()->json([
                 'hata' => 1,
-                'aciklama' => 'Takım bulunamadı.'
+                'aciklama' => __('common.team_not_found')
             ]);
         }
 
@@ -85,7 +85,7 @@ class teamController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Takım başarıyla silindi.'
+            'aciklama' => __('common.team_deleted')
         ]);
     }
 }

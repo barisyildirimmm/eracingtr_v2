@@ -162,7 +162,7 @@ class raceResultsController extends Controller
         return redirect()->route('admin.leagues.raceResults', [
             'league_id' => $request->input('league_id'),
             'track_id' => $request->input('f1_league_track_id'),
-        ])->with('success', 'Sonuçlar başarıyla güncellendi.');
+        ])->with('success', __('common.results_updated'));
     }
     public function updateRaceResults(Request $request)
     {
@@ -191,7 +191,7 @@ class raceResultsController extends Controller
         return redirect()->route('admin.leagues.raceResults', [
             'league_id' => $request->input('league_id'),
             'track_id' => $request->input('f1_league_track_id'),
-        ])->with('success', 'Sonuçlar başarıyla güncellendi.');
+        ])->with('success', __('common.results_updated'));
     }
 
 
@@ -212,6 +212,6 @@ class raceResultsController extends Controller
             'created_at' => now(),
         ]);
 
-        return redirect()->route('adminPanel.leagues.raceResults.index')->with('success', 'Yarış sonucu başarıyla kaydedildi.');
+        return redirect()->route('adminPanel.leagues.raceResults.index')->with('success', __('common.race_result_saved'));
     }
 }

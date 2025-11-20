@@ -29,7 +29,7 @@ class authController extends Controller
         if (!$admin) {
             $sonuc = [
                 'hata' => 1,
-                'aciklama' => 'Kullanıcı bulunamadı. Giriş başarısız'
+                'aciklama' => __('common.user_not_found')
             ];
             return $sonuc;
         }
@@ -37,13 +37,13 @@ class authController extends Controller
             session(['adminInfo' => $admin]);
             $sonuc = [
                 'hata' => 0,
-                'aciklama' => 'Giriş Başarılı'
+                'aciklama' => __('common.login_success_auth')
             ];
             return $sonuc;
         }
         $sonuc = [
             'hata' => 1,
-            'aciklama' => 'Şifre hatalı. Tekrar deneyin.'
+            'aciklama' => __('common.password_incorrect')
         ];
         return $sonuc;
     }
@@ -53,10 +53,7 @@ class authController extends Controller
         $request->session()->forget('adminInfo');
         $request->session()->regenerateToken();
 
-        $sonuc = [
-            'hata' => 0,
-            'aciklama' => 'Çıkış yapıldı'
-        ];
-        return $sonuc;
+        // Ana sayfaya yönlendir
+        return redirect()->route('home')->with('success', __('common.logout_success_admin'));
     }
 }

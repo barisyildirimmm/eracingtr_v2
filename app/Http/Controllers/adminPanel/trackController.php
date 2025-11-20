@@ -20,7 +20,7 @@ class trackController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:200',
         ], [
-            'name.required' => 'Adı alanı zorunludur.'
+            'name.required' => __('common.name_required')
         ]);
 
         if ($validator->fails()) {
@@ -38,7 +38,7 @@ class trackController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Pist başarıyla oluşturuldu.'
+            'aciklama' => __('common.track_created')
         ]);
     }
 
@@ -47,7 +47,7 @@ class trackController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:200',
         ], [
-            'name.required' => 'Adı alanı zorunludur.'
+            'name.required' => __('common.name_required')
         ]);
 
         if ($validator->fails()) {
@@ -66,7 +66,7 @@ class trackController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Pist başarıyla güncellendi.'
+            'aciklama' => __('common.track_updated')
         ]);
     }
 
@@ -77,7 +77,7 @@ class trackController extends Controller
         if (!$track) {
             return response()->json([
                 'hata' => 1,
-                'aciklama' => 'Pist bulunamadı.'
+                'aciklama' => __('common.track_not_found')
             ]);
         }
 
@@ -85,7 +85,7 @@ class trackController extends Controller
 
         return response()->json([
             'hata' => 0,
-            'aciklama' => 'Pist başarıyla silindi.'
+            'aciklama' => __('common.track_deleted')
         ]);
     }
 }

@@ -113,7 +113,7 @@ class configController extends Controller
             DB::table('posts_youtube')->insert($insertData);
         }
         //!YOUTUBE
-        return redirect()->route('Ahome')->with('success', 'Instagram verileri güncellendi.');
+        return redirect()->route('Ahome')->with('success', __('common.instagram_data_updated'));
 
     }
 }

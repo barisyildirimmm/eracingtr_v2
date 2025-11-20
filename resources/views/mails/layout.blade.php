@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>eRacing Türkiye - E-posta</title>
+    <title>{{ __('common.email_title') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,7 +69,7 @@
 <div class="email-container">
     <!-- Header -->
     <div class="email-header">
-        <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/logo.png?v=2') }}" alt="eRacing Türkiye Logo"></a>
+        <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/logo.png?v=2') }}" alt="{{ __('common.eracing_turkey_logo') }}"></a>
     </div>
 
     <!-- Body -->
@@ -79,8 +79,8 @@
 
     <!-- Footer -->
     <div class="email-footer">
-        <p>Bu e-posta otomatik olarak gönderilmiştir. Lütfen yanıtlamayın.</p>
-        <p>eRacing Türkiye © 2017 - {{ date('Y') }}</p>
+        <p>{{ __('common.auto_email_message') }}</p>
+        <p>{{ __('common.eracing_turkey_copyright') }} - {{ date('Y') }}</p>
     </div>
 </div>
 </body>

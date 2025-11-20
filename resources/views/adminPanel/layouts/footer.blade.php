@@ -3,9 +3,9 @@
     <div class="container">
         <span class="text-gray dark:text-defaulttextcolor/50"> Copyright © 2018 - <span id="year"></span>
             <a href="javascript:void(0);" class="text-defaulttextcolor font-semibold dark:text-defaulttextcolor">
-                eRacing Türkiye
+                {{ __('common.eracing_turkey') }}
             </a>.
-            Tüm hakları saklıdır.
+            {{ __('common.all_rights_reserved') }}
         </span>
     </div>
 </footer>

@@ -23,16 +23,16 @@ class authController extends Controller
     function registerPost(Request $request)
     {
         $messages = [
-            'name.required' => 'Adınızı girmelisiniz.',
-            'surname.required' => 'Soyadınızı girmelisiniz.',
-            'email.required' => 'E-posta adresinizi girmelisiniz.',
-            'email.email' => 'Geçerli bir e-posta adresi girin.',
-            'email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
-            'password.required' => 'Şifrenizi girmeniz gerekiyor.',
-            'password.confirmed' => 'Şifreler eşleşmiyor.',
-            'password.min' => 'Şifreniz en az 6 karakter uzunluğunda olmalıdır.',
-            'password_confirmation.required' => 'Şifre onayını girmelisiniz.',
-            'gsm.required' => 'Telefon numaranızı girmelisiniz.',
+            'name.required' => __('common.name_enter'),
+            'surname.required' => __('common.surname_enter'),
+            'email.required' => __('common.email_enter'),
+            'email.email' => __('common.email_valid'),
+            'email.unique' => __('common.email_unique_in_use'),
+            'password.required' => __('common.password_enter'),
+            'password.confirmed' => __('common.password_confirmed'),
+            'password.min' => __('common.password_min_length'),
+            'password_confirmation.required' => __('common.password_confirmation_required'),
+            'gsm.required' => __('common.phone_enter'),
         ];
 
         $validator = Validator::make($request->all(), [
@@ -52,6 +52,9 @@ class authController extends Controller
             ];
         }
 
+        // Telefon numarasından ülke kodunu belirle
+        $countryCode = getCountryCodeFromPhone($request->gsm);
+
         DB::table('drivers')->insert([
             'name' => $request->name,
             'surname' => $request->surname,
@@ -60,6 +63,7 @@ class authController extends Controller
             'registration_date' => now(),
             'email_verification_token' => Str::random(40),
             'phone' => $request->gsm,
+            'country' => $countryCode,
         ]);
 
         $driver = DB::table('drivers')
@@ -75,10 +79,12 @@ class authController extends Controller
             'email_verification_token' => $driver->email_verification_token,
         ];
 
-        Mail::to($driver->email)->send(new Mailler($userInfo, 'mails.register', 'eRacing Türkiye Ailesine Hoşgeldin !'));
+        // Mail'i queue'ya al (asenkron gönderim - kullanıcı beklemez)
+        Mail::to($driver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title')));
+        
         $sonuc = [
             'hata' => 0,
-            'aciklama' => 'Hesabınız başarıyla oluşturuldu! Yönlendiriliyorsunuz..'
+            'aciklama' => __('common.account_created_success')
         ];
 
         return $sonuc;
@@ -89,9 +95,9 @@ class authController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ], [
-            'email.required' => 'E-posta alanı zorunludur.',
-            'email.email' => 'E-posta adresi geçerli bir formatta olmalıdır.',
-            'password.required' => 'Şifre alanı zorunludur.'
+            'email.required' => __('common.email_required'),
+            'email.email' => __('common.email_email'),
+            'password.required' => __('common.password_required')
         ]);
 
         if ($validator->fails()) {
@@ -107,7 +113,7 @@ class authController extends Controller
         if (!$driver) {
             $sonuc = [
                 'hata' => 1,
-                'aciklama' => 'Kullanıcı bulunamadı. Giriş başarısız'
+                'aciklama' => __('common.user_not_found')
             ];
             return $sonuc;
         }
@@ -115,14 +121,14 @@ class authController extends Controller
             session(['driverInfo' => $driver]);
             $sonuc = [
                 'hata' => 0,
-                'aciklama' => 'Giriş Başarılı'
+                'aciklama' => __('common.login_success_auth')
             ];
             return $sonuc;
         }
 
         $sonuc = [
             'hata' => 1,
-            'aciklama' => 'Şifre hatalı. Tekrar deneyin.'
+            'aciklama' => __('common.password_incorrect')
         ];
         return $sonuc;
     }
@@ -130,7 +136,7 @@ class authController extends Controller
     function logout()
     {
         session()->forget('driverInfo');
-        return redirect()->route('home')->with('success', 'Çıkış yapıldı');
+        return redirect()->route('home')->with('success', __('common.logout_success_driver'));
     }
 
     function verifyMailGet($token = null){
@@ -140,11 +146,11 @@ class authController extends Controller
         $user = DB::table('drivers')->where('email_verification_token', $token)->first();
 
         if($user->email_verified_at != null){
-            return redirect()->route('home')->with('success', 'Hesap zaten onaylı.');
+            return redirect()->route('home')->with('success', __('common.account_already_verified'));
         }
 
         if (!$user) {
-            return redirect()->route('home')->with('error', 'Geçersiz veya süresi dolmuş doğrulama bağlantısı.');
+            return redirect()->route('home')->with('error', __('common.invalid_verification_link'));
         }
 
         DB::table('drivers')->where('id', $user->id)->update([
@@ -152,6 +158,6 @@ class authController extends Controller
 //            'email_verification_token' => null,
         ]);
 
-        return redirect()->route('home')->with('success', 'Hesabınız Onaylandı');
+        return redirect()->route('home')->with('success', __('common.account_verified'));
     }
 }

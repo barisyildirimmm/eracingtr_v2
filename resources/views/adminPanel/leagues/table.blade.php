@@ -8,8 +8,8 @@
         <div class="col-span-12">
             <div class="box">
                 <div class="box-header">
-                    <h5 class="box-title">Lig </h5>
-                    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#createModal">Yeni Ekle</button>
+                    <h5 class="box-title">{{ __('common.leagues') }} </h5>
+                    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#createModal">{{ __('common.add_new') }}</button>
                 </div>
                 <div class="box-body">
                     <div class="overflow-auto table-bordered">
@@ -49,12 +49,12 @@
                 ordering: true,
                 lengthChange: true,
                 language: {
-                    search: "Ara:",
-                    lengthMenu: "Sayfada _MENU_ kayıt göster",
-                    info: "_START_ ile _END_ arası gösteriliyor, toplam _TOTAL_ kayıt",
+                    search: "{{ __('common.datatable_search') }}",
+                    lengthMenu: "{{ __('common.datatable_length_menu') }}",
+                    info: "{{ __('common.datatable_info') }}",
                     paginate: {
-                        next: "Sonraki",
-                        previous: "Önceki"
+                        next: "{{ __('common.datatable_next') }}",
+                        previous: "{{ __('common.datatable_previous') }}"
                     }
                 }
             });

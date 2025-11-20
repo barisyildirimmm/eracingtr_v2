@@ -26,68 +26,80 @@
 
                 <!-- Start::slide -->
                 <li class="slide">
+                    <a href="{{ route('Ahome') }}" class="side-menu__item">
+                        <i class='bx bx-home side-menu__icon'></i>
+                        <span class="side-menu__label">Dashboard</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a href="{{ route('admin.nextRaceStats') }}" class="side-menu__item">
+                        <i class='bx bx-chart side-menu__icon'></i>
+                        <span class="side-menu__label">{{ __('common.next_race_stats') }}</span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a href="{{ route('admin.leagues.list') }}" class="side-menu__item">
                         <i class='bx bxs-flag-checkered side-menu__icon'></i>
-                        <span class="side-menu__label">Ligler</span>
+                        <span class="side-menu__label">{{ __('common.leagues') }}</span>
                     </a>
                 </li>
                 <li class="slide">
                     <a href="{{ route('admin.drivers.list') }}" class="side-menu__item">
                         <i class='bx bx-user side-menu__icon'></i>
-                        <span class="side-menu__label">Pilotlar</span>
+                        <span class="side-menu__label">{{ __('common.drivers') }}</span>
                     </a>
                 </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bxs-bolt side-menu__icon'></i>
-                        <span class="side-menu__label">Hakem Kurulu</span>
+                        <span class="side-menu__label">{{ __('common.referee_board') }}</span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
                         <li class="slide">
-                            <a href="{{ route('admin.leagues.list') }}" class="side-menu__item">Cezalar</a>
+                            <a href="{{ route('admin.penalties.list') }}" class="side-menu__item">{{ __('common.penalties') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="" class="side-menu__item">Ceza Tanımları</a>
+                            <a href="{{ route('admin.penaltyDescs.list') }}" class="side-menu__item">{{ __('common.penalty_definitions') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="" class="side-menu__item">Kural Kitapçığı</a>
+                            <a href="javascript:void(0);" class="side-menu__item">{{ __('common.rule_book') }}</a>
                         </li>
                     </ul>
                 </li>
                 <li class="slide">
                     <a href="{{ route('admin.teams.list') }}" class="side-menu__item">
                         <i class='bx bx-car side-menu__icon'></i>
-                        <span class="side-menu__label">Takımlar</span>
+                        <span class="side-menu__label">{{ __('common.teams') }}</span>
                     </a>
                 </li>
                 <li class="slide">
                     <a href="{{ route('admin.tracks.list') }}" class="side-menu__item">
                         <i class="las la-road side-menu__icon"></i>
-                        <span class="side-menu__label">Pistler</span>
+                        <span class="side-menu__label">{{ __('common.tracks') }}</span>
                     </a>
                 </li>
                 <li class="slide">
                     <a href="{{ route('admin.postContents.list') }}" class="side-menu__item">
                         <i class='bx bx-photo-album side-menu__icon' ></i>
-                        <span class="side-menu__label">Hazır Paylaşımlar</span>
+                        <span class="side-menu__label">{{ __('common.ready_posts') }}</span>
                     </a>
                 </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bx-cog side-menu__icon' ></i>
-                        <span class="side-menu__label">Ayarlar</span>
+                        <span class="side-menu__label">{{ __('common.settings') }}</span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
                         <li class="slide">
-                            <a href="{{ route('admin.admins.list') }}" class="side-menu__item">Kullanıcılar</a>
+                            <a href="{{ route('admin.admins.list') }}" class="side-menu__item">{{ __('common.users') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ route('admin.config.socialMediaPostUpdate') }}" class="side-menu__item">Sosyal Medya Güncelleme</a>
+                            <a href="{{ route('admin.config.socialMediaPostUpdate') }}" class="side-menu__item">{{ __('common.social_media_update') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="" class="side-menu__item">Site Ayarları</a>
+                            <a href="" class="side-menu__item">{{ __('common.site_settings') }}</a>
                         </li>
                     </ul>
                 </li>

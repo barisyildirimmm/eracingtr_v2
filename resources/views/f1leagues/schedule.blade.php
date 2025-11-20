@@ -1,19 +1,160 @@
 @extends('layouts.layout')
 
 @section('content')
+<style>
+    .schedule-card {
+        background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .schedule-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .schedule-card.past {
+        opacity: 0.6;
+    }
+    .schedule-card.past:hover {
+        opacity: 0.8;
+    }
+    .track-flag {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        flex-shrink: 0;
+    }
+    .track-flag img {
+        width: 40px;
+        height: 30px;
+        border-radius: 4px;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        flex-shrink: 0;
+    }
+    .track-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .track-details {
+        flex: 1;
+    }
+    .track-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    .race-date-time {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+    .date-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .time-badge {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .race-type-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .race-type-badge.sprint {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: #856404;
+    }
+    .race-type-badge.race {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+    .qualifying-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .qualifying-badge.yes {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        color: #155724;
+    }
+    .qualifying-badge.no {
+        background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
+        color: white;
+    }
+    .schedule-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+    @media (max-width: 768px) {
+        .schedule-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .card-header-custom {
+        background: linear-gradient(135deg, rgba(40, 40, 40, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
+    }
+    .card-title-custom {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
     <!-- Page Heading
                   ================================================== -->
     <div class="page-heading">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 offset-md-1">
-                    <h1 class="page-heading__title">FİKSTÜR</span></h1>
+                    <h1 class="page-heading__title">{{ __('common.schedule_title') }}</h1>
                 </div>
             </div>
         </div>
     </div>
     <!-- Page Heading / End -->
-
 
     @include('f1leagues.components.nav')
 
@@ -21,258 +162,75 @@
                   ================================================== -->
     <div class="site-content">
         <div class="container">
-
-            <!-- Schedule & Tickets -->
-            <div class="card card--has-table">
-                <div class="card__header">
-                    <h4>Schedule and Tickets</h4>
+            @if(isset($schedule) && $schedule->count() > 0)
+            <div class="card schedule-card">
+                <div class="card-header-custom">
+                    <h4 class="card-title-custom">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ __('common.schedule') }}
+                    </h4>
                 </div>
-                <div class="card__content">
-                    <div class="table-responsive">
-                        <table class="table table-hover team-schedule team-schedule--full">
-                            <thead>
-                                <tr>
-                                    <th class="team-schedule__date">Date</th>
-                                    <th class="team-schedule__versus">Versus</th>
-                                    <th class="team-schedule__status">Status</th>
-                                    <th class="team-schedule__time">Time</th>
-                                    <th class="team-schedule__compet">Competition</th>
-                                    <th class="team-schedule__venue">Venue</th>
-                                    <th class="team-schedule__tickets">Tickets</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="team-schedule__date">Saturday, Mar 24</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/lucky_clovers_shield.png"
-                                                    alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Lucky Clovers</h6>
-                                                <span class="team-meta__place">St. Patrick’s Institute</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Away</td>
-                                    <td class="team-schedule__time">9:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Madison Cube Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Friday, May 31</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/red_wings_shield.png" alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Red Wings</h6>
-                                                <span class="team-meta__place">Icarus College</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Home</td>
-                                    <td class="team-schedule__time">9:30PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Alchemists Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block disabled">
-                                            Sold Out
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Saturday, May 8</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/draconians_shield.png" alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Draconians</h6>
-                                                <span class="team-meta__place">Wyvern College</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Away</td>
-                                    <td class="team-schedule__time">10:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Scalding Rock Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Friday, May 14</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/aqua_keyes_shield.png" alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Aqua Keyes</h6>
-                                                <span class="team-meta__place">Pacific Institute</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Home</td>
-                                    <td class="team-schedule__time">10:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Alchemists Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Saturday, May 22</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/icarus_wings_shield.png"
-                                                    alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Icarus Wings</h6>
-                                                <span class="team-meta__place">Waxer College</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Away</td>
-                                    <td class="team-schedule__time">10:30PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">The FireStar Arena</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block disabled">
-                                            Sold Out
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Saturday, May 29</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/bloody_wave_shield.png"
-                                                    alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Bloody Wave</h6>
-                                                <span class="team-meta__place">Atlantic School</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Home</td>
-                                    <td class="team-schedule__time">9:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Alchemists Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Friday, Jun 5</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/sharks_shield.png" alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Sharks</h6>
-                                                <span class="team-meta__place">Marine College</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Away</td>
-                                    <td class="team-schedule__time">9:30PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Great Hammerhead Arena</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block disabled">
-                                            Sold Out
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Saturday, Jun 13</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/pirates_shield.png" alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">L.A. Pirates</h6>
-                                                <span class="team-meta__place">Bebop Institute</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Home</td>
-                                    <td class="team-schedule__time">10:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Alchemists Stadium</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="team-schedule__date">Thursday, Jun 8</td>
-                                    <td class="team-schedule__versus">
-                                        <div class="team-meta">
-                                            <figure class="team-meta__logo">
-                                                <img src="assets/images/samples/logos/ocean_kings_shield.png"
-                                                    alt="">
-                                            </figure>
-                                            <div class="team-meta__info">
-                                                <h6 class="team-meta__name">Ocean Kings</h6>
-                                                <span class="team-meta__place">Bay College</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="team-schedule__status">Away</td>
-                                    <td class="team-schedule__time">10:00PM EST</td>
-                                    <td class="team-schedule__compet">West Bay Playoffs 2018</td>
-                                    <td class="team-schedule__venue">Coral Reef LA Institute</td>
-                                    <td class="team-schedule__tickets">
-                                        <a href="#" class="btn btn-xs btn-default btn-outline btn-block ">
-                                            Buy Game Tickets
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="card-body p-4">
+                    <div class="schedule-grid">
+                        @foreach($schedule as $race)
+                        <div class="schedule-card {{ $race->is_past ? 'past' : '' }}" style="padding: 20px;">
+                            <div class="track-info">
+                                @php
+                                    $flagPath = asset('assets/img/flags/' . $race->track_id . '_b.jpg');
+                                    $flagExists = file_exists(public_path('assets/img/flags/' . $race->track_id . '_b.jpg'));
+                                @endphp
+                                @if($flagExists)
+                                    <img src="{{ $flagPath }}" alt="{{ $race->track_name }}" class="track-flag">
+                                @else
+                                    <div class="track-flag">
+                                        <i class="fas fa-flag-checkered"></i>
+                                    </div>
+                                @endif
+                                <div class="track-details">
+                                    <div class="track-name">{{ $race->track_name }}</div>
+                                    <div class="race-date-time">
+                                        <span class="date-badge">
+                                            <i class="fas fa-calendar"></i>
+                                            {{ $race->race_date_formatted }}
+                                        </span>
+                                        <span class="time-badge">
+                                            <i class="fas fa-clock"></i>
+                                            {{ $race->race_time_formatted }}
+                                        </span>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                                        @if($race->sprint_status)
+                                        <span class="race-type-badge sprint">
+                                            <i class="fas fa-bolt"></i> {{ __('common.sprint') }}
+                                        </span>
+                                        @else
+                                        <span class="race-type-badge race">
+                                            <i class="fas fa-flag-checkered"></i> {{ __('common.race') }}
+                                        </span>
+                                        @endif
+                                        @if($race->qualifying_type == 1)
+                                        <span class="qualifying-badge yes">
+                                            <i class="fas fa-check-circle"></i> {{ __('common.qualifying') }}
+                                        </span>
+                                        @else
+                                        <span class="qualifying-badge no">
+                                            <i class="fas fa-times-circle"></i> {{ __('common.no_qualifying') }}
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
-            <!-- Schedule & Tickets / End -->
-
-            <!-- Team Pagination -->
-            <nav class="team-pagination" aria-label="Team navigation">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><span class="page-link">...</span></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                </ul>
-            </nav>
-            <!-- Team Pagination / End -->
+            @else
+            <div class="alert alert-info">
+                <p>{{ __('common.no_schedule') }}</p>
+            </div>
+            @endif
         </div>
     </div>
-
     <!-- Content / End -->
 @endsection

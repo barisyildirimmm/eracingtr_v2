@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" data-vertical-style="overlay" class="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
+<html lang="tr" dir="ltr" data-nav-layout="vertical" data-vertical-style="overlay" class="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
 
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eRacing Türkiye - Türkiye'nin Yarış Platformu</title>
-    <meta name="description" content="Türkiye'nin Yarış Platformu">
+    <title>{{ __('common.site_title') }}</title>
+    <meta name="description" content="{{ __('common.site_description') }}">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/img/logo/logo_fav.png') }}">
@@ -50,23 +50,23 @@
                 </div>
                 <div class="box">
                     <div class="box-body !p-[3rem]">
-                        <p class="h5 font-semibold mb-2 text-center">Giriş Yap</p>
+                        <p class="h5 font-semibold mb-2 text-center">{{ __('common.login') }}</p>
                         <form id="loginForm">
                             @csrf
                             <div class="grid grid-cols-12">
                                 <div class="xl:col-span-12 col-span-12 mb-3">
-                                    <label for="signin-username" class="form-label text-default">Kullanıcı Adı</label>
+                                    <label for="signin-username" class="form-label text-default">{{ __('common.username') }}</label>
                                     <input type="text" name="username" class="form-control form-control-lg w-full !rounded-md" id="signin-username" placeholder="">
                                 </div>
                                 <div class="xl:col-span-12 col-span-12 mb-3">
-                                    <label for="signin-password" class="form-label text-default block">Şifre</label>
+                                    <label for="signin-password" class="form-label text-default block">{{ __('common.password') }}</label>
                                     <div class="input-group">
                                         <input type="password" name="password" class="form-control !border-s border-defaultborder dark:border-defaultborder/10 form-control-lg !rounded-s-md" id="signin-password" placeholder="">
                                         <button aria-label="button" class="ti-btn ti-btn-light !rounded-s-none !mb-0" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                                     </div>
                                 </div>
                                 <div class="xl:col-span-12 col-span-12 grid mt-2">
-                                    <a onclick="login()" class="ti-btn ti-btn-primary !bg-danger !text-white !font-medium">Giriş Yap</a>
+                                    <a onclick="login()" class="ti-btn ti-btn-primary !bg-danger !text-white !font-medium">{{ __('common.login') }}</a>
                                 </div>
                             </div>
                         </form>
@@ -95,17 +95,17 @@
             success: function(response) {
                 if (response.hata === 1) {
                     Swal.fire({
-                        title: 'Hata',
+                        title: '{{ __('common.error') }}',
                         text: response.aciklama,
                         icon: 'error',
-                        confirmButtonText: 'Tamam'
+                        confirmButtonText: '{{ __('common.ok') }}'
                     });
                 } else {
                     Swal.fire({
-                        title: 'Başarılı',
-                        text: 'Giriş başarılı! Yönlendiriliyorsunuz...',
+                        title: '{{ __('common.login_success') }}',
+                        text: '{{ __('common.login_success_text') }}',
                         icon: 'success',
-                        confirmButtonText: 'Tamam'
+                        confirmButtonText: '{{ __('common.ok') }}'
                     }).then(() => {
                         window.location.href = '{{ route('Ahome') }}';
                     });
@@ -113,10 +113,10 @@
             },
             error: function() {
                 Swal.fire({
-                    title: 'Hata',
-                    text: 'Beklenmedik bir hata oluştu.',
+                    title: '{{ __('common.error') }}',
+                    text: '{{ __('common.unexpected_error') }}',
                     icon: 'error',
-                    confirmButtonText: 'Tamam'
+                    confirmButtonText: '{{ __('common.ok') }}'
                 });
             }
         });

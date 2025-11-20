@@ -11,7 +11,7 @@
                           <div class="footer-col-inner">
                               <!-- Widget: Contact Info -->
                               <div class="widget widget--footer widget-contact-info">
-                                  <h4 class="widget__title">İLETİŞİM BİLGİLERİ</h4>
+                                  <h4 class="widget__title">{{ __('common.contact_information') }}</h4>
                                   <div class="widget__content">
                                       <div class="widget-contact-info__desc">
                                           <p>Lorem ipsum dolor sit amet, consectetur adipisi nel elit, sed do eiusmod

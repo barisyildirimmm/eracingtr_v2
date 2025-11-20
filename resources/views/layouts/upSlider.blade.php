@@ -8,14 +8,14 @@
                   <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                       class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
               </span>
-              <h5 class="hero-unit__subtitle">YENİ SEZON BAŞLIYOR</h5>
-              <h1 class="hero-unit__title">E-RACİNG <span class="text-primary">TÜRKİYE</span></h1>
+              <h5 class="hero-unit__subtitle">{{ __('common.new_season_starting') }}</h5>
+              <h1 class="hero-unit__title">{{ __('common.eracing_turkey') }}</h1>
               @if (!session('driverInfo'))
-                  <div class="hero-unit__desc">Başvuru için aşağıdaki linke tıklayıp, formu doldurabilirsin !</div>
+                  <div class="hero-unit__desc">{{ __('common.application_desc') }}</div>
                   <a href="#"
                       class="btn btn-inverse btn-xl btn-outline btn-icon-right btn-condensed hero-unit__btn bg-light text-dark"
                       data-toggle="modal" data-target="#modal-login-register">
-                      KATIL
+                      {{ __('common.join') }}
                       <i class="fas fa-user-plus fa-xl text-primary"></i>
                   </a>
               @endif

@@ -25,16 +25,22 @@
             <ul class="main-menu">
 
                 <!-- Start::slide -->
-{{--                <li class="slide">--}}
-{{--                    <a href="{{ route('Dhome') }}" class="side-menu__item">--}}
-{{--                        <i class='bx bx-stats side-menu__icon'></i>--}}
-{{--                        <span class="side-menu__label">İstatistiklerim</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                <li class="slide">
+                    <a href="{{ route('Dhome') }}" class="side-menu__item">
+                        <i class='bx bx-stats side-menu__icon'></i>
+                        <span class="side-menu__label">Dashboard</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a href="{{ route('driver.profile') }}" class="side-menu__item">
+                        <i class='bx bx-user side-menu__icon'></i>
+                        <span class="side-menu__label">{{ __('common.profile') }}</span>
+                    </a>
+                </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bx-video-recording side-menu__icon'></i>
-                        <span class="side-menu__label">Hakem Kararları</span>
+                        <span class="side-menu__label">{{ __('common.referee_decisions') }}</span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
@@ -42,13 +48,13 @@
                             <a href="javascript:void(0)">Dashboards</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ route('referee.decisions.complaints') }}" class="side-menu__item">Şikayetlerim</a>
+                            <a href="{{ route('referee.decisions.complaints') }}" class="side-menu__item">{{ __('common.my_complaints') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ route('referee.decisions.defenses') }}" class="side-menu__item">Savunmalarım</a>
+                            <a href="{{ route('referee.decisions.defenses') }}" class="side-menu__item">{{ __('common.my_defenses') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ route('referee.decisions.appeals') }}" class="side-menu__item">İtirazlarım</a>
+                            <a href="{{ route('referee.decisions.appeals') }}" class="side-menu__item">{{ __('common.my_appeals') }}</a>
                         </li>
                     </ul>
                 </li>
@@ -67,7 +73,7 @@
                 <li class="slide">
                     <a href="{{ route('home') }}" class="side-menu__item">
                         <i class='bx bx-undo side-menu__icon'></i>
-                        <span class="side-menu__label">Siteye Dön</span>
+                        <span class="side-menu__label">{{ __('common.return_to_site') }}</span>
                     </a>
                 </li>
                 <!-- End::slide -->

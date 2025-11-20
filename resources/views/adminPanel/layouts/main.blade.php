@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="tr" dir="ltr" data-nav-layout="vertical" class="light" data-header-styles="light"
+<html lang="{{ app()->getLocale() }}" dir="ltr" data-nav-layout="vertical" class="light" data-header-styles="light"
     data-menu-styles="dark" data-toggled="close">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eRacing Türkiye - Admin Panel</title>
+    <title>{{ __('common.admin_panel_title') }}</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/img/logo/logo_fav.png') }}">
 
@@ -21,6 +21,8 @@
     <!-- Color Picker Css -->
     <link rel="stylesheet" href="{{ asset('assets/panel/libs/@simonwep/pickr/themes/nano.min.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     @yield('css')
 </head>
 
@@ -66,6 +68,7 @@
     <div id="responsive-overlay"></div>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <!-- Switch JS -->
     <script src="{{ asset('assets/panel/js/switch.js') }}"></script>
 
@@ -114,6 +117,43 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Language Switcher Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelect = document.getElementById('language-select-admin');
+            if (languageSelect) {
+                languageSelect.addEventListener('change', function() {
+                    const locale = this.value;
+                    
+                    fetch('{{ route("change.locale") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ locale: locale })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        } else {
+                            alert('{{ __('common.language_change_failed') }}');
+                            languageSelect.value = '{{ app()->getLocale() }}';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('{{ __('common.language_change_error') }}');
+                        languageSelect.value = '{{ app()->getLocale() }}';
+                    });
+                });
+            }
+        });
+    </script>
+    <!-- Language Switcher Script / End -->
+    
     @yield('js')
 
 </body>

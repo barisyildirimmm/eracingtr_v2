@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 offset-md-1">
-                    <h1 class="page-heading__title">YARIŞ <span class="highlight">SONUÇLARI</span></h1>
+                    <h1 class="page-heading__title">{{ __('common.race_results_title') }}</h1>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
     <div class="site-content">
         <div class="container">
 
-            <!-- Pist Seçim Kartları -->
+            <!-- {{ __('common.track_selection_cards') }} -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="d-flex flex-wrap gap-3 justify-content-center">
@@ -26,7 +26,7 @@
                                 {{ isset($trackID) && $trackID == $track->f1_league_track_id ? 'btn-danger text-white' : 'btn-outline-secondary' }}">
                                 <i class="fas fa-flag-checkered"></i> {{ $track->name }}
                                 @if($track->sprint_status)
-                                    <span class="badge bg-warning text-dark ml-1">Sprint</span>
+                                    <span class="badge bg-warning text-dark ml-1">{{ __('common.sprint') }}</span>
                                 @endif
                             </a>
                         @endforeach
@@ -34,14 +34,14 @@
                 </div>
             </div>
 
-            <!-- Yarış Sonuçları Tablosu -->
+            <!-- {{ __('common.race_results_table') }} -->
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-dark text-white">
                     <h4 class="mb-0">
                         <i class="fas fa-trophy mr-1"></i>
-                        {{ $raceResults->isEmpty() ? 'Sonuç Bulunamadı' : $raceResults->first()->track_name }}
+                        {{ $raceResults->isEmpty() ? __('common.no_result_found') : $raceResults->first()->track_name }}
                         @if(!$raceResults->isEmpty() && $raceResults->first()->sprint_status)
-                            <span class="badge bg-warning text-dark ml-1">Sprint</span>
+                            <span class="badge bg-warning text-dark ml-1">{{ __('common.sprint') }}</span>
                         @endif
                     </h4>
                 </div>
@@ -51,10 +51,10 @@
                             <thead class="table-dark">
                             <tr>
                                 <th>#</th>
-                                <th>Pilot</th>
-                                <th class="text-center">Sıralama Süresi</th>
-                                <th class="text-center">EN Hızlı Tur (Yarış)</th>
-                                <th class="text-center">Toplam Süre</th>
+                                <th>{{ __('common.pilot') }}</th>
+                                <th class="text-center">{{ __('common.qualifying_time') }}</th>
+                                <th class="text-center">{{ __('common.fastest_lap_race') }}</th>
+                                <th class="text-center">{{ __('common.total_time') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -69,7 +69,12 @@
                                     </td>
                                     <td class="fw-bold text-start">
 {{--                                        <i class="fas fa-user-circle mr-1"></i>--}}
-                                        {{ $result->driver_name }} {{ $result->driver_surname }}
+                                        <a href="{{ route('driver.show', driverSlug($result->driver_name, $result->driver_surname, $result->driver_id)) }}" 
+                                           style="color: inherit; text-decoration: none; transition: color 0.3s ease;"
+                                           onmouseover="this.style.color='#24d9b0';"
+                                           onmouseout="this.style.color='inherit';">
+                                            {{ $result->driver_name }} {{ $result->driver_surname }}
+                                        </a>
                                     </td>
                                     <td>{{ $result->fast_q ?? '-' }}</td>
                                     <td>
@@ -83,7 +88,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted">Bu pist için sonuç bulunamadı.</td>
+                                    <td colspan="6" class="text-center text-muted">{{ __('common.no_result_for_track') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>

@@ -54,6 +54,23 @@
                 </div>
                 <!-- End light and dark theme -->
 
+                <!-- Language Switcher -->
+                <div class="header-element md:!px-[0.65rem] px-2 !items-center">
+                    <select id="language-select-driver" 
+                            class="form-select form-select-sm" 
+                            style="background: var(--default-body-bg-color); color: var(--default-text-color); border: 1px solid var(--default-border-color); padding: 5px 10px; border-radius: 4px; cursor: pointer; outline: none; min-width: 80px;">
+                        <option value="tr" {{ app()->getLocale() == 'tr' ? 'selected' : '' }}>🇹🇷 TR</option>
+                        <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 EN</option>
+                        <option value="de" {{ app()->getLocale() == 'de' ? 'selected' : '' }}>🇩🇪 DE</option>
+                        <option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>🇫🇷 FR</option>
+                        <option value="it" {{ app()->getLocale() == 'it' ? 'selected' : '' }}>🇮🇹 IT</option>
+                        <option value="pt" {{ app()->getLocale() == 'pt' ? 'selected' : '' }}>🇵🇹 PT</option>
+                        <option value="es" {{ app()->getLocale() == 'es' ? 'selected' : '' }}>🇪🇸 ES</option>
+                        <option value="az" {{ app()->getLocale() == 'az' ? 'selected' : '' }}>🇦🇿 AZ</option>
+                    </select>
+                </div>
+                <!-- Language Switcher / End -->
+
                 <!-- Header Profile -->
                 <div
                     class="header-element md:!px-[0.65rem] px-2 hs-dropdown !items-center ti-dropdown [--placement:bottom-left]">
@@ -103,7 +120,7 @@
 {{--                            </li>--}}
                             <li><a class="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex"
                                     href="{{ route('Dlogout') }}"><i
-                                        class="ti ti-logout text-[1.125rem] me-2 opacity-[0.7]"></i>Çıkış Yap</a>
+                                        class="ti ti-logout text-[1.125rem] me-2 opacity-[0.7]"></i>{{ __('common.logout') }}</a>
                             </li>
                         </ul>
                     </div>
