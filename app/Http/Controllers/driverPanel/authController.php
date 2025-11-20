@@ -79,8 +79,12 @@ class authController extends Controller
             'email_verification_token' => $driver->email_verification_token,
         ];
 
+        // Driver'ın ülke kodundan dil kodunu belirle
+        $locale = getLocaleFromCountryCode($driver->country);
+        
         // Mail'i queue'ya al (asenkron gönderim - kullanıcı beklemez)
-        Mail::to($driver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title')));
+        // Locale'i ve subject key'ini geçirerek mail'in doğru dilde gönderilmesini sağla
+        Mail::to($driver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title'), $locale, 'common.mail_welcome_title'));
         
         $sonuc = [
             'hata' => 0,

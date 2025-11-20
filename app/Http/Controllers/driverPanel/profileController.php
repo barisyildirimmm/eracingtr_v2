@@ -160,8 +160,10 @@ class profileController extends Controller
                     'email' => $updatedDriver->email,
                     'email_verification_token' => $updatedDriver->email_verification_token,
                 ];
+                // Driver'ın ülke kodundan dil kodunu belirle
+                $locale = getLocaleFromCountryCode($updatedDriver->country);
                 // Mail'i queue'ya al (asenkron gönderim)
-                Mail::to($updatedDriver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title')));
+                Mail::to($updatedDriver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title'), $locale, 'common.mail_welcome_title'));
             }
         }
 
@@ -196,7 +198,9 @@ class profileController extends Controller
             'email' => $driver->email,
             'email_verification_token' => $newToken,
         ];
-        Mail::to($driver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title')));
+        // Driver'ın ülke kodundan dil kodunu belirle
+        $locale = getLocaleFromCountryCode($driver->country);
+        Mail::to($driver->email)->queue(new Mailler($userInfo, 'mails.register', __('common.mail_welcome_title'), $locale, 'common.mail_welcome_title'));
 
         return response()->json([
             'hata' => 0,

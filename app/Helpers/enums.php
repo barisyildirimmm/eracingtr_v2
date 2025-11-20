@@ -192,3 +192,58 @@ if (!function_exists('getCountryNameFromCode')) {
     }
 }
 
+// Ülke kodundan dil koduna (locale) dönüştüren fonksiyon
+if (!function_exists('getLocaleFromCountryCode')) {
+    function getLocaleFromCountryCode($countryCode)
+    {
+        if (empty($countryCode)) {
+            return 'en'; // Varsayılan İngilizce
+        }
+
+        // Ülke kodunu küçük harfe çevir
+        $countryCode = strtolower($countryCode);
+
+        // Desteklenen diller ve ülke kodları mapping
+        $countryToLocale = [
+            // Türkçe
+            'tr' => 'tr',
+            
+            // Almanca
+            'de' => 'de',
+            'at' => 'de', // Avusturya
+            'ch' => 'de', // İsviçre (Almanca konuşan bölgeler için)
+            
+            // İngilizce
+            'en' => 'en',
+            'us' => 'en',
+            'ca' => 'en', // Kanada
+            'au' => 'en', // Avustralya
+            'nz' => 'en', // Yeni Zelanda
+            'ie' => 'en', // İrlanda
+            'gb' => 'en', // İngiltere
+            
+            // Fransızca
+            'fr' => 'fr',
+            'be' => 'fr', // Belçika (Fransızca konuşan bölgeler için)
+            
+            // İtalyanca
+            'it' => 'it',
+            
+            // İspanyolca
+            'es' => 'es',
+            'mx' => 'es', // Meksika
+            'ar' => 'es', // Arjantin
+            'br' => 'es', // Brezilya (Portekizce ama İspanyolca'ya yakın)
+            
+            // Portekizce
+            'pt' => 'pt',
+            
+            // Azerbaycan Türkçesi
+            'az' => 'az',
+        ];
+
+        // Eğer mapping'de varsa döndür, yoksa varsayılan İngilizce
+        return $countryToLocale[$countryCode] ?? 'en';
+    }
+}
+
