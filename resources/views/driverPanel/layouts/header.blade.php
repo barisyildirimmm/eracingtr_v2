@@ -39,6 +39,7 @@
 
             <div class="header-content-right">
                 <!-- light and dark theme -->
+                <!--
                 <div
                     class="header-element header-theme-mode hidden !items-center sm:block !py-[1rem] md:!px-[0.65rem] px-2">
                     <a aria-label="anchor"
@@ -52,6 +53,7 @@
                         <i class="bx bx-sun header-link-icon"></i>
                     </a>
                 </div>
+                -->
                 <!-- End light and dark theme -->
 
                 <!-- Language Switcher -->

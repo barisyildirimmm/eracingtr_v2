@@ -645,12 +645,8 @@
                                 confirmButton: 'swal2-confirm-custom'
                             }
                         }).then(() => {
-                            // Formu temizle
-                            document.getElementById('registerForm').reset();
-                            if (iti) {
-                                iti.setCountry('tr');
-                                gsmInput.value = '';
-                            }
+                            // Sayfayı yenile
+                            window.location.reload();
                         });
                     }
                 },

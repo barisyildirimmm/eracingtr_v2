@@ -206,10 +206,12 @@
                         @endif
                     </div>
                 </div>
+                @if($appeals->isNotEmpty())
                 <div class="info-badge">
                     <i class="fas fa-ticket-alt"></i>
                     <span class="fw-bold">{{ __('common.remaining_rights') }}: <span class="badge-modern bg-{{ $remainingAppeals > 0 ? 'success' : 'danger' }} ms-2">{{ $remainingAppeals }} / {{ $maxAppeals }}</span></span>
                 </div>
+                @endif
             </div>
         </div>
 

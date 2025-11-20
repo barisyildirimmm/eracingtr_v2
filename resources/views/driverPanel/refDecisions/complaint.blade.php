@@ -243,10 +243,12 @@
                         @endif
                     </div>
                 </div>
+                @if($tracks->isNotEmpty())
                 <div class="info-badge">
                     <i class="fas fa-ticket-alt"></i>
                     <span class="fw-bold">{{ __('common.remaining_rights') }}: <span class="badge-modern bg-{{ $remainingComplaints > 0 ? 'success' : 'danger' }} ms-2">{{ $remainingComplaints }} / {{ $maxComplaints }}</span></span>
                 </div>
+                @endif
             </div>
         </div>
 

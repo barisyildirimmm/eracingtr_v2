@@ -31,12 +31,14 @@
                         <span class="side-menu__label">Dashboard</span>
                     </a>
                 </li>
+                <!--
                 <li class="slide">
                     <a href="{{ route('driver.profile') }}" class="side-menu__item">
                         <i class='bx bx-user side-menu__icon'></i>
                         <span class="side-menu__label">{{ __('common.profile') }}</span>
                     </a>
                 </li>
+                -->
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class='bx bx-video-recording side-menu__icon'></i>
