@@ -13,23 +13,43 @@
         {{ __('common.mail_ready') }}
     </p>
     
-    <div style="text-align: center; margin: 30px 0;">
-        <a href="{{ route('DverifyMailGet', $userInfo['email_verification_token']) }}" 
-           style="
-            display: inline-block;
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            color: #ffffff !important;
-            padding: 15px 35px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-            transition: all 0.3s;
-       ">
-            {{ __('common.mail_verify_button') }}
-        </a>
+    <!-- Hesap Onaylama Bölümü -->
+    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border: 2px solid #dc3545; border-radius: 12px; padding: 30px; margin: 30px 0; text-align: center; box-shadow: 0 4px 20px rgba(220, 53, 69, 0.15);">
+        <div style="margin-bottom: 20px;">
+            <div style="display: inline-block; width: 80px; height: 80px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);">
+                <span style="font-size: 40px; color: #ffffff;">✓</span>
+            </div>
+            <h3 style="color: #dc3545; font-size: 22px; font-weight: bold; margin: 0 0 10px 0; font-family: Arial, sans-serif;">
+                {{ __('common.mail_verify_account') }}
+            </h3>
+            <p style="font-size: 14px; color: #666; margin: 0 0 25px 0; line-height: 1.5;">
+                {{ __('common.mail_verify_description') }}
+            </p>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="{{ route('DverifyMailGet', $userInfo['email_verification_token']) }}" 
+               style="
+                display: inline-block;
+                background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+                color: #ffffff !important;
+                padding: 16px 40px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+                transition: all 0.3s;
+                letter-spacing: 0.5px;
+           ">
+                <span style="margin-right: 8px;">🔐</span>{{ __('common.mail_verify_button') }}
+            </a>
+        </div>
+        
+        <p style="font-size: 12px; color: #999; margin: 20px 0 0 0; line-height: 1.4;">
+            {{ __('common.mail_verify_link_expires') }}
+        </p>
     </div>
     
     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 30px 0; border-left: 4px solid #dc3545;">
