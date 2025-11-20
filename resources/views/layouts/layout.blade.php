@@ -47,6 +47,63 @@
     <!-- Custom CSS-->
     <link href="{{ asset('assets/css/custom.css?v=4') }}" rel="stylesheet">
 
+    <!-- SweetAlert2 Custom Styles -->
+    <style>
+        .swal2-popup-custom {
+            border-radius: 12px !important;
+            padding: 30px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+        .swal2-confirm-custom {
+            border-radius: 8px !important;
+            padding: 12px 30px !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            transition: all 0.3s !important;
+        }
+        .swal2-confirm-custom:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        .swal2-title {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .swal2-html-container {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .swal2-footer {
+            border-top: 1px solid #e5e7eb !important;
+            padding-top: 15px !important;
+            margin-top: 15px !important;
+        }
+        
+        .swal2-toast-custom {
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            border: 1px solid #e5e7eb !important;
+            padding: 16px 20px !important;
+            min-width: 350px !important;
+        }
+        
+        .swal2-toast-custom .swal2-title {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
 </head>
 
 <body data-template="template-basketball">
@@ -55,35 +112,43 @@
     {{-- FLASH MESSAGES --}}
     @if (session('success'))
         <div style="
-        margin:12px 0;
-        padding:14px 18px;
-        background:#e8f7ee;
-        border:1px solid #b8e2c3;
-        border-left:5px solid #38b000;
-        border-radius:6px;
-        color:#215732;
-        font-size:14px;
-        display:flex;
-        align-items:center;
-        gap:8px;">
-            ✅ {{ session('success') }}
+        margin: 15px auto;
+        max-width: 1200px;
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border: none;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        animation: slideDown 0.3s ease-out;">
+            <i class="fas fa-check-circle" style="font-size: 18px;"></i>
+            <span>{{ session('success') }}</span>
         </div>
     @endif
 
     @if (session('error'))
         <div style="
-        margin:12px 0;
-        padding:14px 18px;
-        background:#fdeaea;
-        border:1px solid #f5c2c2;
-        border-left:5px solid #d90429;
-        border-radius:6px;
-        color:#7c1a1a;
-        font-size:14px;
-        display:flex;
-        align-items:center;
-        gap:8px;">
-            ❌ {{ session('error') }}
+        margin: 15px auto;
+        max-width: 1200px;
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        border: none;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        animation: slideDown 0.3s ease-out;">
+            <i class="fas fa-exclamation-circle" style="font-size: 18px;"></i>
+            <span>{{ session('error') }}</span>
         </div>
     @endif
 
@@ -672,10 +737,16 @@
             window.validatePhoneNumber = function() {
                 if (!iti || !gsmInput || !iti.isValidNumber()) {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: 'Lütfen geçerli bir telefon numarası girin.',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">Lütfen geçerli bir telefon numarası girin.</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                     return false;
                 }
@@ -765,18 +836,30 @@
                 data: $('#loginForm').serialize(),
                 success: function(response) {
                     if (response.hata === 1) {
-                        Swal.fire({
-                            title: '{{ __('common.error') }}',
-                            text: response.aciklama,
-                            icon: 'error',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        });;
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
+                    });;
                     } else {
                         Swal.fire({
-                            title: '{{ __('common.login_success') }}',
-                            text: '{{ __('common.login_success_text') }}',
                             icon: 'success',
-                            confirmButtonText: '{{ __('common.ok') }}'
+                            title: '<div style="font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 10px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>{{ __('common.login_success') }}</div>',
+                            html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.login_success_text') }}</p>',
+                            confirmButtonText: '{{ __('common.ok') }}',
+                            confirmButtonColor: '#10b981',
+                            buttonsStyling: true,
+                            customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom'
+                            }
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -784,10 +867,16 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.unexpected_error') }}</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                 }
             });
@@ -805,19 +894,31 @@
                 data: $('#registerForm').serialize(),
                 success: function(response) {
                     if (response.hata === 1) {
-                        Swal.fire({
-                            title: '{{ __('common.error') }}',
-                            text: response.aciklama,
-                            icon: 'error',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        });
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
+                    });
                     } else {
                         Swal.fire({
-                            title: '{{ __('common.register_success') }}',
-                            text: '{{ __('common.register_success_text') }}',
                             icon: 'success',
+                            title: '<div style="font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 10px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>{{ __('common.register_success') }}</div>',
+                            html: '<p style="font-size: 16px; color: #333; margin: 0 0 15px 0;">{{ __('common.register_success_text') }}</p>',
                             confirmButtonText: '{{ __('common.ok') }}',
-                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
+                            confirmButtonColor: '#10b981',
+                            buttonsStyling: true,
+                            footer: '<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;"><small style="color: #6b7280; font-size: 13px;"><i class="fas fa-info-circle" style="margin-right: 5px; color: #3b82f6;"></i>{{ __('common.mail_delivery_time') }}</small></div>',
+                            customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom'
+                            }
                         }).then(() => {
                             window.location.href = '{{ route('home') }}';
                         });
@@ -825,10 +926,16 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.unexpected_error') }}</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                 }
             });
@@ -838,10 +945,16 @@
             const email = $('#forgot-password-email').val();
             if (!email) {
                 Swal.fire({
-                    title: '{{ __('common.error') }}',
-                    text: '{{ __('common.email_required') }}',
                     icon: 'error',
-                    confirmButtonText: '{{ __('common.ok') }}'
+                    title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                    html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.email_required') }}</p>',
+                    confirmButtonText: '{{ __('common.ok') }}',
+                    confirmButtonColor: '#ef4444',
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom'
+                    }
                 });
                 return;
             }
@@ -855,19 +968,31 @@
                 },
                 success: function(response) {
                     if (response.hata === 1) {
-                        Swal.fire({
-                            title: '{{ __('common.error') }}',
-                            text: response.aciklama,
-                            icon: 'error',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        });
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
+                    });
                     } else {
                         Swal.fire({
-                            title: '{{ __('common.success') }}',
-                            text: response.aciklama,
                             icon: 'success',
+                            title: '<div style="font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 10px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>{{ __('common.success') }}</div>',
+                            html: '<p style="font-size: 16px; color: #333; margin: 0 0 15px 0;">' + response.aciklama + '</p>',
                             confirmButtonText: '{{ __('common.ok') }}',
-                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
+                            confirmButtonColor: '#10b981',
+                            buttonsStyling: true,
+                            footer: '<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;"><small style="color: #6b7280; font-size: 13px;"><i class="fas fa-info-circle" style="margin-right: 5px; color: #3b82f6;"></i>{{ __('common.mail_delivery_time') }}</small></div>',
+                            customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom'
+                            }
                         }).then(() => {
                             // Step 2'ye geç
                             $('#forgot-password-step1').hide();
@@ -882,10 +1007,16 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.unexpected_error') }}</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                 }
             });
@@ -899,30 +1030,48 @@
 
             if (!resetCode || resetCode.length !== 4) {
                 Swal.fire({
-                    title: '{{ __('common.error') }}',
-                    text: '{{ __('common.reset_code_required') }}',
                     icon: 'error',
-                    confirmButtonText: '{{ __('common.ok') }}'
+                    title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                    html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.reset_code_required') }}</p>',
+                    confirmButtonText: '{{ __('common.ok') }}',
+                    confirmButtonColor: '#ef4444',
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom'
+                    }
                 });
                 return;
             }
 
             if (!password || password.length < 6) {
                 Swal.fire({
-                    title: '{{ __('common.error') }}',
-                    text: '{{ __('common.password_min_length') }}',
                     icon: 'error',
-                    confirmButtonText: '{{ __('common.ok') }}'
+                    title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                    html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.password_min_length') }}</p>',
+                    confirmButtonText: '{{ __('common.ok') }}',
+                    confirmButtonColor: '#ef4444',
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom'
+                    }
                 });
                 return;
             }
 
             if (password !== passwordConfirmation) {
                 Swal.fire({
-                    title: '{{ __('common.error') }}',
-                    text: '{{ __('common.password_confirmed') }}',
                     icon: 'error',
-                    confirmButtonText: '{{ __('common.ok') }}'
+                    title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                    html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.password_confirmed') }}</p>',
+                    confirmButtonText: '{{ __('common.ok') }}',
+                    confirmButtonColor: '#ef4444',
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom'
+                    }
                 });
                 return;
             }
@@ -939,18 +1088,30 @@
                 },
                 success: function(response) {
                     if (response.hata === 1) {
-                        Swal.fire({
-                            title: '{{ __('common.error') }}',
-                            text: response.aciklama,
-                            icon: 'error',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        });
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
+                    });
                     } else {
                         Swal.fire({
-                            title: '{{ __('common.success') }}',
-                            text: response.aciklama,
                             icon: 'success',
-                            confirmButtonText: '{{ __('common.ok') }}'
+                            title: '<div style="font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 10px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>{{ __('common.success') }}</div>',
+                            html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                            confirmButtonText: '{{ __('common.ok') }}',
+                            confirmButtonColor: '#10b981',
+                            buttonsStyling: true,
+                            customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom'
+                            }
                         }).then(() => {
                             $('#modal-forgot-password').modal('hide');
                             $('#modal-login-register').modal('show');
@@ -965,10 +1126,16 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.unexpected_error') }}</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                 }
             });
@@ -1023,10 +1190,16 @@
             const email = $('#reset-password-email').val();
             if (!email) {
                 Swal.fire({
-                    title: '{{ __('common.error') }}',
-                    text: '{{ __('common.email_required') }}',
                     icon: 'error',
-                    confirmButtonText: '{{ __('common.ok') }}'
+                    title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                    html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.email_required') }}</p>',
+                    confirmButtonText: '{{ __('common.ok') }}',
+                    confirmButtonColor: '#ef4444',
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom'
+                    }
                 });
                 return;
             }
@@ -1040,19 +1213,31 @@
                 },
                 success: function(response) {
                     if (response.hata === 1) {
-                        Swal.fire({
-                            title: '{{ __('common.error') }}',
-                            text: response.aciklama,
-                            icon: 'error',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        });
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">' + response.aciklama + '</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
+                    });
                     } else {
                         Swal.fire({
-                            title: '{{ __('common.success') }}',
-                            text: response.aciklama,
                             icon: 'success',
+                            title: '<div style="font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 10px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>{{ __('common.success') }}</div>',
+                            html: '<p style="font-size: 16px; color: #333; margin: 0 0 15px 0;">' + response.aciklama + '</p>',
                             confirmButtonText: '{{ __('common.ok') }}',
-                            footer: '<small style="color: #999;"><i class="fas fa-info-circle"></i> {{ __('common.mail_delivery_time') }}</small>'
+                            confirmButtonColor: '#10b981',
+                            buttonsStyling: true,
+                            footer: '<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;"><small style="color: #6b7280; font-size: 13px;"><i class="fas fa-info-circle" style="margin-right: 5px; color: #3b82f6;"></i>{{ __('common.mail_delivery_time') }}</small></div>',
+                            customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom'
+                            }
                         });
                         // Geri sayımı yeniden başlat
                         startResendCountdown();
@@ -1060,10 +1245,16 @@
                 },
                 error: function() {
                     Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.unexpected_error') }}',
                         icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
+                        title: '<div style="font-size: 24px; font-weight: 600; color: #ef4444; margin-bottom: 10px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>{{ __('common.error') }}</div>',
+                        html: '<p style="font-size: 16px; color: #333; margin: 0;">{{ __('common.unexpected_error') }}</p>',
+                        confirmButtonText: '{{ __('common.ok') }}',
+                        confirmButtonColor: '#ef4444',
+                        buttonsStyling: true,
+                        customClass: {
+                            popup: 'swal2-popup-custom',
+                            confirmButton: 'swal2-confirm-custom'
+                        }
                     });
                 }
             });
@@ -1090,37 +1281,22 @@
             });
         });
 
-        function logout() {
-            $.ajax({
-                url: '{{ route('Dlogout') }}',
-                type: 'GET',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    // Çıkış işlemi başarılı olduysa
-                    if (response.hata == 0) {
-                        Swal.fire({
-                            title: '{{ __('common.logout_success') }}',
-                            text: '{{ __('common.logout_success_text') }}',
-                            icon: 'success',
-                            confirmButtonText: '{{ __('common.ok') }}'
-                        }).then(() => {
-                            window.location.href = '{{ route('home') }}';
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Eğer hata oluşursa
-                    Swal.fire({
-                        title: '{{ __('common.error') }}',
-                        text: '{{ __('common.error_occurred') }}',
-                        icon: 'error',
-                        confirmButtonText: '{{ __('common.ok') }}'
-                    });
-                }
+        // Logout linklerini form submit'e çevir
+        $(document).on('click', 'a[href="{{ route('Dlogout') }}"]', function(e) {
+            e.preventDefault();
+            // Form oluştur ve submit et
+            var form = $('<form>', {
+                'method': 'POST',
+                'action': '{{ route('Dlogout') }}'
             });
-        }
+            form.append($('<input>', {
+                'type': 'hidden',
+                'name': '_token',
+                'value': '{{ csrf_token() }}'
+            }));
+            $('body').append(form);
+            form.submit();
+        });
 
         // Dil değiştirme
         document.addEventListener('DOMContentLoaded', function() {
@@ -1158,6 +1334,35 @@
             }
         });
     </script>
+    
+    <!-- Logout Success Toast -->
+    @if(session('logout_success'))
+    <script>
+        $(document).ready(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            
+            Toast.fire({
+                icon: 'success',
+                title: '<div style="display: flex; align-items: center; gap: 12px;"><i class="fas fa-sign-out-alt" style="font-size: 22px; color: #10b981;"></i><div><div style="font-weight: 600; font-size: 16px; color: #1f2937; margin-bottom: 4px;">{{ __('common.logout_success') }}</div><div style="font-size: 14px; color: #6b7280;">{{ __('common.logout_success_text') }}</div></div></div>',
+                background: '#ffffff',
+                customClass: {
+                    popup: 'swal2-toast-custom'
+                }
+            });
+        });
+    </script>
+    @endif
+    <!-- Logout Success Toast / End -->
 </body>
 
 </html>

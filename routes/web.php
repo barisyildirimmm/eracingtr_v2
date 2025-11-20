@@ -81,7 +81,7 @@ Route::get('gecmis-sezonlar', [f1LeagueController::class, 'pastSeasons'])->name(
 Route::get('pilot-d/{driverSlug}', [driverController::class, 'show'])->name('driver.show');
 
 Route::middleware([DriverMiddleware::class])->prefix('pilot')->group(function () {
-    Route::get('/logout', [DPauthController::class, 'logout'])->name('Dlogout');
+    Route::post('/logout', [DPauthController::class, 'logout'])->name('Dlogout');
     Route::get('/', [DPdashboardController::class, 'index'])->name('Dhome');
 
     Route::get('/profil', [DPprofileController::class, 'index'])->name('driver.profile');

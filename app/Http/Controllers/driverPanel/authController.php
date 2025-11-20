@@ -140,7 +140,10 @@ class authController extends Controller
     function logout()
     {
         session()->forget('driverInfo');
-        return redirect()->route('home')->with('success', __('common.logout_success_driver'));
+        // Logout başarılı flag'i ekle - yeni sayfada toast gösterilecek
+        session()->flash('logout_success', true);
+        // Ana sayfaya yönlendir
+        return redirect()->route('home');
     }
 
     function verifyMailGet($token = null){

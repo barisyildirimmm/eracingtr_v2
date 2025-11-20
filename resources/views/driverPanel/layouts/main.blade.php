@@ -26,6 +26,25 @@
     <!-- Color Picker Css -->
     <link rel="stylesheet" href="{{ asset('assets/panel/libs/@simonwep/pickr/themes/nano.min.css') }}">
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- SweetAlert2 Toast Custom Styles -->
+    <style>
+        .swal2-toast-custom {
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            border: 1px solid #e5e7eb !important;
+            padding: 16px 20px !important;
+            min-width: 350px !important;
+        }
+        
+        .swal2-toast-custom .swal2-title {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -613,6 +632,58 @@
         });
     </script>
     <!-- Language Switcher Script / End -->
+    
+    <!-- Logout Link Handler -->
+    <script>
+        $(document).ready(function() {
+            // Logout linklerini form submit'e çevir
+            $(document).on('click', 'a[href="{{ route('Dlogout') }}"]', function(e) {
+                e.preventDefault();
+                // Form oluştur ve submit et
+                var form = $('<form>', {
+                    'method': 'POST',
+                    'action': '{{ route('Dlogout') }}'
+                });
+                form.append($('<input>', {
+                    'type': 'hidden',
+                    'name': '_token',
+                    'value': '{{ csrf_token() }}'
+                }));
+                $('body').append(form);
+                form.submit();
+            });
+        });
+    </script>
+    <!-- Logout Link Handler / End -->
+    
+    <!-- Logout Success Toast -->
+    @if(session('logout_success'))
+    <script>
+        $(document).ready(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            
+            Toast.fire({
+                icon: 'success',
+                title: '<div style="display: flex; align-items: center; gap: 12px;"><i class="fas fa-sign-out-alt" style="font-size: 22px; color: #10b981;"></i><div><div style="font-weight: 600; font-size: 16px; color: #1f2937; margin-bottom: 4px;">{{ __('common.logout_success') }}</div><div style="font-size: 14px; color: #6b7280;">{{ __('common.logout_success_text') }}</div></div></div>',
+                background: '#ffffff',
+                customClass: {
+                    popup: 'swal2-toast-custom'
+                }
+            });
+        });
+    </script>
+    @endif
+    <!-- Logout Success Toast / End -->
     
     @yield('js')
 
