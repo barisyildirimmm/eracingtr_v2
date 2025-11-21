@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -25,9 +26,25 @@ class MaintenanceMode
         
         // Maintenance mode kontrolü
         $maintenanceMode = env('MAINTENANCE_MODE', false);
+        $openingDateString = env('MAINTENANCE_OPENING_DATETIME');
+        $openingDate = null;
+        
+        if (!empty($openingDateString)) {
+            try {
+                $openingDate = Carbon::parse($openingDateString, config('app.timezone'));
+            } catch (\Exception $exception) {
+                $openingDate = null;
+            }
+        }
         
         // Boolean string kontrolü (env'den gelen değer string olabilir)
         if ($maintenanceMode === 'true' || $maintenanceMode === true || $maintenanceMode === '1' || $maintenanceMode === 1) {
+            
+            if ($openingDate instanceof Carbon) {
+                if (Carbon::now()->greaterThanOrEqualTo($openingDate)) {
+                    return $next($request);
+                }
+            }
             
             // Admin giriş yapmışsa tüm sayfaları görebilir
             // Session kontrolü - Önce Request üzerinden, sonra Session facade ile kontrol et
@@ -97,7 +114,9 @@ class MaintenanceMode
                 }
                 
                 // Normal istekler için maintenance view'ını göster
-                return response()->view('maintenance', [], 503);
+                return response()->view('maintenance', [
+                    'openingDate' => $openingDate?->toIso8601String(),
+                ], 503);
             }
         }
         

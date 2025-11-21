@@ -671,31 +671,21 @@
             });
         }
         
-        // Pazar 21:00 için tarih hesaplama (bugünden itibaren 5 gün sonraki Pazar)
-        function getNextSunday() {
-            const now = new Date();
-            
-            // 5 gün sonraki tarihi al
-            let targetDate = new Date(now);
-            
-            // 5 gün sonraki günün haftanın hangi günü olduğunu bul (0 = Pazar, 6 = Cumartesi)
-            const dayOfWeek = targetDate.getDay();
-            
-            // Eğer 5 gün sonra Pazar değilse, en yakın Pazar'a git
-            let daysToSunday = 0;
-            if (dayOfWeek !== 0) {
-                // Pazar'a kadar kaç gün var? (7 - dayOfWeek)
-                daysToSunday = 7 - dayOfWeek;
-                targetDate.setDate(targetDate.getDate() + daysToSunday);
+        // Bakım bitiş tarihi (env üzerinden)
+        const openingDateString = '{{ $openingDate ?? '' }}';
+        let targetDate = null;
+        
+        if (openingDateString) {
+            const parsedDate = new Date(openingDateString);
+            if (!isNaN(parsedDate.getTime())) {
+                targetDate = parsedDate;
             }
-            // Eğer 5 gün sonra zaten Pazar ise, o günü kullan (daysToSunday = 0)
-            
-            targetDate.setHours(21, 0, 0, 0);
-            
-            return targetDate;
         }
         
-        const targetDate = getNextSunday();
+        if (!targetDate) {
+            targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 7);
+        }
         
         // Tarih formatını göster
         const options = { 
