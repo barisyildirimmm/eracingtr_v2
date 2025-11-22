@@ -290,13 +290,14 @@ class SocialMediaService
                 throw new \Exception('Instagram Story media creation ID not found');
             }
 
+            dump('creation_id: ' . $creationId);
             // Step 2: Publish Story
             $publishResponse = Http::post("https://graph.facebook.com/v24.0/{$instagramAccountId}/media_publish", [
                 'creation_id' => $creationId,
                 'access_token' => $accessToken
             ]);
 
-            dd('creation_id: ' . $creationId, 'publishResponse: ' . $publishResponse->json(), 'publishResponse body: ' . $publishResponse->body(), 'publishResponse status: ' . $publishResponse->status(), 'publishResponse failed: ' .    $publishResponse->failed(), 'publishResponse: ' . $publishResponse->body());
+            dd('creation_id: ' . $creationId, 'publishResponse: ' . $publishResponse->json(), 'publishResponse body: ' . $publishResponse->body(), 'publishResponse status: ' . $publishResponse->status(), 'publishResponse failed: ' .    $publishResponse->failed());
 
             if ($publishResponse->failed()) {
                 $errorBody = $publishResponse->json();
