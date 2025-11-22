@@ -296,6 +296,8 @@ class SocialMediaService
                 'access_token' => $accessToken
             ]);
 
+            dd($publishResponse->json(), $publishResponse->body(), $publishResponse->status(), $publishResponse->failed());
+
             if ($publishResponse->failed()) {
                 $errorBody = $publishResponse->json();
                 throw new \Exception('Instagram Story publish error: ' . ($errorBody['error']['message'] ?? $publishResponse->body()));
