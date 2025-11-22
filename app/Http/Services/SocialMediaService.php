@@ -17,6 +17,9 @@ class SocialMediaService
         $images = json_decode($post->images, true) ?? [];
         $content = strip_tags($post->content); // Remove HTML tags for social media
 
+        $results['instagram_reels'] = $this->publishToInstagramReels($content, $images);
+        dd('results: ' . $results);
+        
         $results = [];
 
         foreach ($platforms as $platform) {
@@ -198,6 +201,8 @@ class SocialMediaService
                 'caption' => $content,
                 'access_token' => $accessToken
             ]);
+
+            dump('mediaResponse: ' . $mediaResponse->json(), 'mediaResponse body: ' . $mediaResponse->body(), 'mediaResponse status: ' . $mediaResponse->status(), 'mediaResponse failed: ' .    $mediaResponse->failed());
 
             if ($mediaResponse->failed()) {
                 $errorBody = $mediaResponse->json();
