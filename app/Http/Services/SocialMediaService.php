@@ -16,10 +16,10 @@ class SocialMediaService
         $platforms = json_decode($post->platforms, true) ?? [];
         $images = json_decode($post->images, true) ?? [];
         $content = strip_tags($post->content); // Remove HTML tags for social media
-
-        $results['instagram_reels'] = $this->publishToInstagramReels($content, $images);
-        dd('results: ' . $results);
         
+        $results['instagram_story'] = $this->publishToInstagramStory($content, $images);
+        dd($results);
+
         $results = [];
 
         foreach ($platforms as $platform) {
@@ -202,8 +202,6 @@ class SocialMediaService
                 'access_token' => $accessToken
             ]);
 
-            dump('mediaResponse: ' . $mediaResponse->json(), 'mediaResponse body: ' . $mediaResponse->body(), 'mediaResponse status: ' . $mediaResponse->status(), 'mediaResponse failed: ' .    $mediaResponse->failed());
-
             if ($mediaResponse->failed()) {
                 $errorBody = $mediaResponse->json();
                 throw new \Exception('Instagram Reels media creation error: ' . ($errorBody['error']['message'] ?? $mediaResponse->body()));
@@ -283,6 +281,8 @@ class SocialMediaService
             
             $mediaResponse = Http::post("https://graph.facebook.com/v24.0/{$instagramAccountId}/media", $mediaParams);
 
+            dump('mediaResponse: ' . json_encode($mediaResponse->json()), 'mediaResponse body: ' . $mediaResponse->body(), 'mediaResponse status: ' . $mediaResponse->status(), 'mediaResponse failed: ' .    $mediaResponse->failed());
+
             if ($mediaResponse->failed()) {
                 $errorBody = $mediaResponse->json();
                 throw new \Exception('Instagram Story media creation error: ' . ($errorBody['error']['message'] ?? $mediaResponse->body()));
@@ -295,14 +295,20 @@ class SocialMediaService
                 throw new \Exception('Instagram Story media creation ID not found');
             }
 
-            dump('creation_id: ' . $creationId);
+            dump(['creation_id' => $creationId]);
             // Step 2: Publish Story
             $publishResponse = Http::post("https://graph.facebook.com/v24.0/{$instagramAccountId}/media_publish", [
                 'creation_id' => $creationId,
                 'access_token' => $accessToken
             ]);
 
-            dd('creation_id: ' . $creationId, 'publishResponse: ' . $publishResponse->json(), 'publishResponse body: ' . $publishResponse->body(), 'publishResponse status: ' . $publishResponse->status(), 'publishResponse failed: ' .    $publishResponse->failed());
+            dd([
+                'creation_id' => $creationId,
+                'publishResponse_json' => $publishResponse->json(),
+                'publishResponse_body' => $publishResponse->body(),
+                'publishResponse_status' => $publishResponse->status(),
+                'publishResponse_failed' => $publishResponse->failed()
+            ]);
 
             if ($publishResponse->failed()) {
                 $errorBody = $publishResponse->json();
