@@ -296,7 +296,7 @@ class SocialMediaService
                 'access_token' => $accessToken
             ]);
 
-            dd($publishResponse->json(), $publishResponse->body(), $publishResponse->status(), $publishResponse->failed());
+            dd('creation_id: ' . $creationId, 'publishResponse: ' . $publishResponse->json(), 'publishResponse body: ' . $publishResponse->body(), 'publishResponse status: ' . $publishResponse->status(), 'publishResponse failed: ' .    $publishResponse->failed(), 'publishResponse: ' . $publishResponse->body());
 
             if ($publishResponse->failed()) {
                 $errorBody = $publishResponse->json();
