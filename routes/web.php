@@ -19,6 +19,8 @@ use App\Http\Controllers\adminPanel\teamController as APteamController;
 use App\Http\Controllers\adminPanel\trackController as APtrackController;
 use App\Http\Controllers\adminPanel\adminController as APadminController;
 use App\Http\Controllers\adminPanel\configController as APconfigController;
+use App\Http\Controllers\adminPanel\heroSliderController as APheroSliderController;
+use App\Http\Controllers\adminPanel\socialMediaController as APsocialMediaController;
 
 use App\Http\Controllers\adminPanel\postContentTemplatesController as APpostContentTemplatesController;
 
@@ -168,4 +170,17 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->group(function () 
     Route::get('hazir-paylasimlar/puan-tablosu-gorseli', [APpostContentTemplatesController::class, 'puanTablosuGorseli'])->name('admin.postContents.standings');
 
     Route::get('sosyal-medya-post-update', [APconfigController::class, 'socialMediaPostUpdate'])->name('admin.config.socialMediaPostUpdate');
+    
+    Route::get('hero-slider', [APheroSliderController::class, 'index'])->name('admin.heroSlider.index');
+    Route::post('hero-slider', [APheroSliderController::class, 'store'])->name('admin.heroSlider.store');
+    Route::delete('hero-slider/{id}', [APheroSliderController::class, 'destroy'])->name('admin.heroSlider.destroy');
+    Route::post('hero-slider/update-order', [APheroSliderController::class, 'updateOrder'])->name('admin.heroSlider.updateOrder');
+    
+    Route::get('sosyal-medya', [APsocialMediaController::class, 'index'])->name('admin.socialMedia.index');
+    Route::get('sosyal-medya/olustur', [APsocialMediaController::class, 'create'])->name('admin.socialMedia.create');
+    Route::post('sosyal-medya', [APsocialMediaController::class, 'store'])->name('admin.socialMedia.store');
+    Route::get('sosyal-medya/duzenle/{id}', [APsocialMediaController::class, 'edit'])->name('admin.socialMedia.edit');
+    Route::put('sosyal-medya/{id}', [APsocialMediaController::class, 'update'])->name('admin.socialMedia.update');
+    Route::delete('sosyal-medya/{id}', [APsocialMediaController::class, 'destroy'])->name('admin.socialMedia.destroy');
+    Route::post('sosyal-medya/paylas/{id}', [APsocialMediaController::class, 'publishNow'])->name('admin.socialMedia.publishNow');
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" id="html-root">
 
 <head>
 
@@ -43,10 +43,37 @@
 
     <!-- Template CSS-->
     <link href="{{ asset('assets/css/style-basketball-dark.css') }}?v=3" rel="stylesheet">
+    
+    <!-- Light Theme CSS-->
+    <link href="{{ asset('assets/css/style-basketball-light.css') }}?v=1" rel="stylesheet">
 
     <!-- Custom CSS-->
     <link href="{{ asset('assets/css/custom.css?v=4') }}" rel="stylesheet">
 
+    <!-- Theme CSS Variables -->
+    <style>
+        :root {
+            /* Dark Theme (Default) */
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --card-bg: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --header-bg: #1a1a1a;
+            --header-top-bg: #1a1a1a;
+            --hero-bg: linear-gradient(135deg, #0d1117 0%, #161b22 30%, #1c2128 60%, #0d1117 100%);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+    
     <!-- SweetAlert2 Custom Styles -->
     <style>
         .swal2-popup-custom {
@@ -1367,6 +1394,73 @@
     </script>
     @endif
     <!-- Logout Success Toast / End -->
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        // Tema yükleme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const htmlRoot = document.getElementById('html-root');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeBetaText = document.getElementById('theme-beta-text');
+            
+            if (savedTheme === 'light') {
+                htmlRoot.setAttribute('data-theme', 'light');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+                if (themeBetaText) {
+                    themeBetaText.style.display = 'inline';
+                }
+            } else {
+                htmlRoot.setAttribute('data-theme', 'dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+                if (themeBetaText) {
+                    themeBetaText.style.display = 'none';
+                }
+            }
+        }
+        
+        // Tema değiştirme
+        function toggleTheme() {
+            const htmlRoot = document.getElementById('html-root');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeBetaText = document.getElementById('theme-beta-text');
+            const currentTheme = htmlRoot.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlRoot.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (themeIcon) {
+                if (newTheme === 'light') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+            
+            if (themeBetaText) {
+                if (newTheme === 'light') {
+                    themeBetaText.style.display = 'inline';
+                } else {
+                    themeBetaText.style.display = 'none';
+                }
+            }
+        }
+        
+        // Sayfa yüklendiğinde temayı yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+        });
+    </script>
+    <!-- Theme Toggle Script / End -->
 </body>
 
 </html>

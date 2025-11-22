@@ -16,7 +16,20 @@
     <!-- Header Top Bar -->
     <div class="header__top-bar" style="background: #1a1a1a; padding: 8px 0; border-bottom: 1px solid #333;">
         <div class="container">
-            <div class="header__top-bar-inner" style="display: flex; justify-content: flex-end; align-items: center; gap: 20px;">
+            <div class="header__top-bar-inner" style="display: flex; justify-content: flex-end; align-items: center; gap: 15px;">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle" style="display: inline-flex; align-items: center;">
+                    <button id="theme-toggle-btn" class="theme-toggle-btn" 
+                            style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 10px; min-width: auto; height: 32px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 6px; color: #fff; cursor: pointer; transition: all 0.3s ease; font-size: 14px;"
+                            onmouseover="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(220, 53, 69, 0.4)';"
+                            onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(255, 255, 255, 0.2)';"
+                            onclick="toggleTheme()">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                        <span id="theme-beta-text" class="theme-beta-text" style="display: none; color: #fff; font-size: 10px; font-weight: 600; opacity: 0.9;">(Beta)</span>
+                    </button>
+                </div>
+                <!-- Theme Toggle / End -->
+                
                 <!-- Language Switcher -->
                 <div class="language-switcher" style="display: inline-flex; align-items: center;">
                     <select id="language-select" 

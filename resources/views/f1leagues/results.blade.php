@@ -36,7 +36,7 @@
 
             <!-- {{ __('common.race_results_table') }} -->
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header bg-dark text-white" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;">
                     <h4 class="mb-0">
                         <i class="fas fa-trophy mr-1"></i>
                         {{ $raceResults->isEmpty() ? __('common.no_result_found') : $raceResults->first()->track_name }}

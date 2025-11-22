@@ -26,11 +26,11 @@
     }
     .calendar-day {
         margin-bottom: 2rem;
-        background: white;
+        background: #1a1a1a;
         border-radius: 0.5rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         overflow: hidden;
-        border: 1px solid #e0e0e0;
     }
     .calendar-day-header {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);

@@ -10,6 +10,11 @@ class dashboardController extends Controller
 {
     function index()
     {
+        $heroSliders = DB::table('hero_sliders')
+            ->where('status', 1)
+            ->orderBy('order', 'asc')
+            ->get();
+        
         $instagramPosts = DB::table('posts_instagram')->orderBy('timestamp', 'DESC')->get()->take(16);
         $youtubePosts = DB::table('posts_youtube')->get()->take(5);
 
@@ -283,6 +288,7 @@ class dashboardController extends Controller
         }
 
         return view('welcome', compact(
+            'heroSliders',
             'instagramPosts',
             'youtubePosts',
             'nextRace',

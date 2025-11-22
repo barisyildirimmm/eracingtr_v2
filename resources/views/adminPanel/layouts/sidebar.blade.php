@@ -99,6 +99,12 @@
                             <a href="{{ route('admin.config.socialMediaPostUpdate') }}" class="side-menu__item">{{ __('common.social_media_update') }}</a>
                         </li>
                         <li class="slide">
+                            <a href="{{ route('admin.heroSlider.index') }}" class="side-menu__item">Hero Slider</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ route('admin.socialMedia.index') }}" class="side-menu__item">Sosyal Medya</a>
+                        </li>
+                        <li class="slide">
                             <a href="" class="side-menu__item">{{ __('common.site_settings') }}</a>
                         </li>
                     </ul>
