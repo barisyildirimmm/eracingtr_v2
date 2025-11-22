@@ -278,7 +278,6 @@ class SocialMediaService
             
             $mediaResponse = Http::post("https://graph.facebook.com/v24.0/{$instagramAccountId}/media", $mediaParams);
 
-            dd($mediaResponse->json(), $mediaResponse->body(), $mediaResponse->status(), $mediaResponse->failed());
             if ($mediaResponse->failed()) {
                 $errorBody = $mediaResponse->json();
                 throw new \Exception('Instagram Story media creation error: ' . ($errorBody['error']['message'] ?? $mediaResponse->body()));
